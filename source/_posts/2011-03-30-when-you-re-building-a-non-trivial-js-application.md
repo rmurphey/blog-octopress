@@ -1,0 +1,13 @@
+--- 
+layout: post
+date: "2011-03-30"
+title: When you're building a non-trivial JS application ...
+comments: true
+categories: javascript
+---
+
+<p>I sense another round of discussion of this is <a href="http://twitter.com/slightlylate/status/52924409509445632">about to begin</a>, and 140 characters isn't quite enough to say what I want to say, so:</p>
+<p>When you're building a non-trivial JS application, you don't want a jQuery developer, or a Dojo developer, or a YUI developer, or, frankly, any developer who chooses their tool before they evaluate the problem. <strong>For god's sake, you want a JavaScript developer.</strong> Can you roll your own solution with jQuery as the base? Yes! Should you? I don't think so, and I advise my clients against it for reasons I've <a href="http://blog.rebeccamurphey.com/on-rolling-your-own">written about</a> <a href="http://blog.rebeccamurphey.com/on-jquery-large-applications">at length</a>, but I'm open to hearing compelling, articulate, fact-based arguments in favor of it!</p>
+<p>But do me a favor, OK? Don't base your arguments solely on the winner of a popularity contest. Don't tell me how easy it is to find developers familiar with one library or another, because I'll come right back and ask you just how good those developers will be at solving problems that aren't addressed by said library. And please tell me you've at least explored some of the other options besides [insert the library you're advocating here].&nbsp;</p>
+<p>People read what I write about JavaScript libraries and they write me heartfelt tweets and e-mails saying OMG YOU HATE JQUERY NOW WHAT HAPPENEDDDDD? I don't hate jQuery! It is a perfectly viable and valuable tool for so many things! But when people argue not just its viability but its absolute <em>supremacy</em>, when people get defensive and possibly even angry that I suggest there are solutions that are vastly better suited to a certain set of problems, when people contort themselves into pretzels to make their case and their case is "well, it's not <em>that</em> bad" ... well, that smacks of blind loyalty, not a thoughtful weighing of the tradeoffs and challenges we face as developers, and I question how those people would fare if actually confronted with the needs of a non-trivial application.&nbsp;</p>
+<p>So, please: Tell me what solutions you've looked at for non-trivial application development. Tell me where they work, tell me where they fall short. Tell me what you're working on and how you chose the tools. Don't tell me why I'm wrong -- tell me why you're right. Deal? Discuss.</p>
