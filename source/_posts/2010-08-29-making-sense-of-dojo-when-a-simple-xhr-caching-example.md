@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2010-08-29"
 title: "Making sense of dojo.when: A simple XHR caching example"
@@ -12,47 +12,47 @@ categories: deferreds, dojo, dojo.when, promises
 
 <p>It&rsquo;s pretty common that an application makes an Ajax request for some data, and then caches that data so the request won&rsquo;t have to happen again; the pattern might look something like this:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="keyword">var</span> myCache = {};
+{% codeblock lang:javascript %}
+var myCache = {};
 
-<span class="keyword">function</span> <span class="function">getSomeStuff</span>(stuffId) {
-  <span class="keyword">if</span> (myCache[stuffId]) {
+function getSomeStuff(stuffId) {
+  if (myCache[stuffId]) {
     handleResponse(myCache[stuffId]);
-    <span class="keyword">return</span>;
+    return;
   }
 
   dojo.xhrGet({
-    <span class="key">url</span> : <span class="string"><span class="delimiter">'</span><span class="content">foo.php</span><span class="delimiter">'</span></span>,
-    <span class="key">content</span> : { <span class="key">id</span> : stuffId },
-    <span class="function">load</span> : <span class="keyword">function</span>(response) {
+    url : 'foo.php',
+    content : { id : stuffId },
+    load : function(response) {
       myCache[stuffId] = response;
       handleResponse(response);
     }
   });
-}</pre></div>
-</div>
+}
+{% endcodeblock %}
 
 
 <p>Here we have a function that takes an ID; the function looks in the cache to see if there&rsquo;s a value stored for the ID, and if so, it passes the stored value to a <code>handleResponse</code> function. If not, it does an XHR to get the data; when the XHR succeeds, it stores the data in the cache and, again, passes the value to the <code>handleResponse</code> function.</p>
 
 <p>There&rsquo;s nothing strictly wrong with this, but I discovered that some neat abstraction opportunities became more clear when I switched to using <code>dojo.when</code> instead:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="keyword">var</span> myCache = {};
+{% codeblock lang:javascript %}
+var myCache = {};
 
-<span class="keyword">function</span> <span class="function">getSomeStuff</span>(stuffId) {
+function getSomeStuff(stuffId) {
   dojo.when(
     myCache[stuffId] || dojo.xhrGet({
-      <span class="key">url</span> : <span class="string"><span class="delimiter">'</span><span class="content">foo.php</span><span class="delimiter">'</span></span>,
-      <span class="key">content</span> : { <span class="key">id</span> : stuffId },
-      <span class="function">load</span> : <span class="keyword">function</span>(response) {
+      url : 'foo.php',
+      content : { id : stuffId },
+      load : function(response) {
         myCache[stuffId] = response;
       }
     }),
     handleResponse
   );
-}</pre></div>
-</div>
+}
+{% endcodeblock %}
 
 
 <p>Now we&rsquo;re telling our <code>getSomeStuff</code> function to look for a cached value; if it finds one, <code>dojo.when</code> will immediately pass that value to the <code>handleResponse</code> function. If it doesn&rsquo;t find one, it will run the XHR, and <code>dojo.when</code> will magically pass the XHR&rsquo;s response to the <code>handleResponse</code> function instead. This is hot.</p>
@@ -63,23 +63,23 @@ categories: deferreds, dojo, dojo.when, promises
 
 <p>In my application, I was actually caching the responses using the URL from which I&rsquo;d requested them, which works out to be a perfectly unique ID for the data. (This particular part may or may not work in your application.) My abstraction was an essentially drop-in replacement for <code>dojo.xhrGet</code> calls:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="keyword">var</span> cache = {};
+{% codeblock lang:javascript %}
+var cache = {};
 
-<span class="keyword">function</span> <span class="function">cacheableXhrGet</span>(settings) {
-  <span class="keyword">var</span> url = settings.url,
+function cacheableXhrGet(settings) {
+  var url = settings.url,
       req = cache[url] ||
             dojo.xhrGet(dojo.mixin({
-              <span class="comment">// override the load handler</span>
-              <span class="function">load</span> : <span class="keyword">function</span>(resp) {
+              // override the load handler
+              load : function(resp) {
                 cache[url] = resp;
               }
             }, settings));
 
   dojo.when(req, settings.load);
-  <span class="keyword">return</span> req;
-}</pre></div>
-</div>
+  return req;
+}
+{% endcodeblock %}
 
 
 <p>I can pass a settings object to <code>cacheableXhrGet</code> that looks exactly like the object I&rsquo;d pass to <code>dojo.xhrGet</code>, but replace the <code>load</code> function before actually passing it to <code>dojo.xhrGet</code>. But before the XHR even has a chance to get set up, I check my cache for a stored response; if I find one, I store it in the <code>req</code> variable, but otherwise I store the XHR there.</p>

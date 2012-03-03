@@ -11,7 +11,7 @@ landed in the jQuery GitHub repo. Thanks to [Julian Aubourg](http://www.jaubourg
 that I've desperately wished it had ever since I started spending time with
 Dojo:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 function doAjax(debug) {
   var req = $.ajax({
     url : 'foo.php',
@@ -35,7 +35,7 @@ function doAjax(debug) {
 doAjax().success(function(resp){
   console.log("Once more, with feeling!", resp);
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 Starting with 1.5 (I'm guessing), users will be able to easily attach callbacks
 to XHRs ... later! And pass around the return value of `$.ajax` as an actually
@@ -52,7 +52,7 @@ It **allows users to assign callback functions for success and error conditions
 for a task that may not complete immediately.** Dojo makes use of this for its
 XHR stuff, but it's incredibly useful generically, too:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 function doSomethingAsync() {
   var dfd = new dojo.Deferred();
   setTimeout(function() {
@@ -64,7 +64,7 @@ function doSomethingAsync() {
 doSomethingAsync().then(function(resp) {
   console.log(resp); // logs 'hello world'
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 So, Dojo provided the late callback functionality via deferreds. jQuery now had
 late callback functionality. Was the deferred functionality hidden in the
@@ -84,7 +84,7 @@ of behavior that *may or may not be asynchronous*.
 I assure you that once you have experienced this, you will wonder how you lived
 without it.
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 var cache = {};
 
 function doSomethingMaybeAsync(val) {
@@ -106,13 +106,13 @@ $.when(doSomethingMaybeAsync('foo'))
   .then(function(resp){
     alert("The value for foo is", resp);
   });
-{% endhighlight %}
+{% endcodeblock %}
 
 It'll also be possible to do something like you see below. I'm not sure what
 the exact API will be for creating a generic deferred instance, but I hope it
 will be something along these lines:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 function doIt() {
   var dfd = new $.Deferred();
 
@@ -124,7 +124,7 @@ function doIt() {
 }
 
 doIt().then(function(resp) { console.log(resp); }, errorFn);
-{% endhighlight %}
+{% endcodeblock %}
 
 These changes are sitting in a [branch in the jQuery GitHub repo](https://github.com/jquery/jquery/tree/deferred) as we speak, and I think
 it's likely we'll see them move to master sooner than later. It's a nice story

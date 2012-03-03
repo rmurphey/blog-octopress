@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2007-12-30"
 title: Determine the order of two DOM elements
@@ -6,10 +6,12 @@ comments: true
 categories: javascript, jquery, plugins
 ---
 
-Inspired by <a href="http://us.php.net/usort">this</a> from PHP, I wanted a utility function to determine whether a given element came before or after another element in the DOM.
+Inspired by <a href="http://us.php.net/usort">this</a> from PHP, I wanted a
+utility function to determine whether a given element came before or after
+another element in the DOM.
 
-<div class="CodeRay">
-  <div class="code"><pre>(function($){
+{% codeblock lang:javascript %}
+(function($){
   $.order = function($a,$b) {
 
     $a = $a.eq(0);
@@ -38,5 +40,5 @@ Inspired by <a href="http://us.php.net/usort">this</a> from PHP, I wanted a util
 
 };
 
-})(jQuery)</pre></div>
-</div>
+})(jQuery)
+{% endcodeblock %}

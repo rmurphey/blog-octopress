@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-01-06"
 title: Unobtrusive, cross-browser method to add icons to links
@@ -15,22 +15,22 @@ This uses my favorite Javascript library, <a href="http://jquery.com">jQuery</a>
 
 <strong>Round 1:</strong> Because <a href="http://docs.jquery.com/Selectors">jQuery supports CSS1-3</a>, you can mimic the CSS rule that wouldn't work in IE6:
 
-<div class="CodeRay">
-  <div class="code"><pre>$('a[href$=&quot;.doc&quot;]').
+{% codeblock lang:javascript %}
+$('a[href$=&quot;.doc&quot;]').
   css({
     // use paddingLeft instead of padding-left;
     // jQuery (and Javascript) use camelCase
     // for CSS attributes instead of hyphenation
     paddingLeft: '18px',
     background: 'transparent url(&quot;word-doc.gif&quot;) no-repeat center left'
-  });</pre></div>
-</div>
+  });
+{% endcodeblock %}
 
 
 <strong>Round 2:</strong> You <em>could</em> do one of these snippets for each file type, but with jQuery, you can take advantage of the <a href="http://docs.jquery.com/Utilities/jQuery.each#objectcallback">$.each() utility method</a> to do a loop, eliminating redundant code:
 
-<div class="CodeRay">
-  <div class="code"><pre>// first, create an object
+{% codeblock lang:javascript %}
+// first, create an object
 // that contains information
 // about how file extensions
 // correspond to images
@@ -50,14 +50,14 @@ $.each(fileTypes, function(extension,image) {
       paddingLeft: '18px',
       background: 'transparent url(&quot;' + image + '&quot;) no-repeat center left'
     });
-});</pre></div>
-</div>
+});
+{% endcodeblock %}
 
 
 <strong>Round 3:</strong> One problem with this: while jQuery does support these attribute selectors, in my experience they require some pretty heavy lifting to do the pattern matching, which can slow things down significantly. Since the method above would require multiple selections (one for each extension/image combination), it makes sense to try a different way that will require fewer selections and less pattern matching:
 
-<div class="CodeRay">
-  <div class="code"><pre>var fileTypes = {
+{% codeblock lang:javascript %}
+var fileTypes = {
   doc: 'doc.gif',
   xls: 'xls.gif',
   pdf: 'pdf.gif'
@@ -86,8 +86,8 @@ $('a').each(function() {
     });
   }
 
-});</pre></div>
-</div>
+});
+{% endcodeblock %}
 
 
 And in fact, in limited testing using Firebug, this second version is faster than the first if you have more than two filetypes (and thus more than two selections).
@@ -95,8 +95,8 @@ And in fact, in limited testing using Firebug, this second version is faster tha
 <h3>Taking it further</h3>
 You can also add a different icon to external links, and only add filetype icons to internal links:
 
-<div class="CodeRay">
-  <div class="code"><pre>var fileTypes = {
+{% codeblock lang:javascript %}
+var fileTypes = {
   doc: 'doc.gif',
   xls: 'xls.gif',
   pdf: 'pdf.gif'
@@ -130,8 +130,8 @@ $('a').each(function() {
     });
   }
 
-});</pre></div>
-</div>
+});
+{% endcodeblock %}
 
 
 Or, only add icons to certain links, like a list of files in an unordered list, by changing your selector from <code>$('a')</code> to <code>$('ul#fileList a')</code>.
@@ -145,21 +145,3 @@ Or, only add icons to certain links, like a list of files in an unordered list, 
 
 </ul>
 
-<h3>The class name method</h3>
-In case you were wondering ...
-
-First, put a class name on the link:
-
-<div class="CodeRay">
-  <div class="code"><pre>Word Document</pre></div>
-</div>
-
-
-... and then style it using CSS:
-
-<div class="CodeRay">
-  <div class="code"><pre>a.word-doc {
-   padding-left: 18px;
-   background: transparent url('word.gif') no-repeat center left;
-}</pre></div>
-</div>

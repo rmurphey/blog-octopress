@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-01-13"
 title: Fix uneven line lengths in headlines
@@ -8,8 +8,8 @@ categories: howto, jquery
 
 I used to work in newspapers, and we were diligent about fixing "bad breaks" in headlines. Nothing looks worse than a headline that's far longer on one line than on another. Desktop publishing software has some intelligence about these bad breaks, but the web, not so much. A little jQuery can clean up the bad breaks, though -- for example, this will clean up all the <code>h2</code>s.
 
-<div class="CodeRay">
-  <div class="code"><pre>$('h2').each(function() {
+{% codeblock lang:javascript %}
+$('h2').each(function() {
   $h2 = $(this);
 
   // get the height of the existing element
@@ -53,25 +53,23 @@ I used to work in newspapers, and we were diligent about fixing "bad breaks" in 
     $h2.text(text);
 
   }
-});</pre></div>
-</div>
+});
+{% endcodeblock %}
 
 
 So you end up changing this:
 
-<div class="CodeRay">
-  <div class="code"><pre>This is a very long headline that goes on and then breaks
-badly</pre></div>
-</div>
-
+{% codeblock %}
+This is a very long headline that goes on and then breaks
+badly
+{% endcodeblock %}
 
 to something like this:
 
-<div class="CodeRay">
-  <div class="code"><pre>This is a very long headline that
-goes on and then breaks badly</pre></div>
-</div>
-
+{% codeblock %}
+This is a very long headline that
+goes on and then breaks badly
+{% endcodeblock %}
 
 You'll want to change the <code>$('h2')</code> selector to exactly what you need; in the case of this blog, <code>$('div.post h2 a')</code> is actually more appropriate. You're going to be best off if matching elements contain only text, and no HTML.
 

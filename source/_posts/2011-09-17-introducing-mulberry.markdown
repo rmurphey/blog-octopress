@@ -29,31 +29,33 @@ It's the data asset that provides the most power to developers -- you can create
 
 A Twitter component offers a simple example. A node might have a data asset like this associated with it:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 { term : 'capitoljs', type : 'twitter' }
-{% endhighlight %}
+{% endcodeblock %}
 
 We could define a custom template for this page (`mulberry create_template Twitter`), and tell that template to include a Twitter component:
 
-    Twitter:
-      screens:
-        - name: index
-          regions:
-            -
-              size: fixed
-              scrollable: false
-              components:
-                - PageNav
-            -
-              size: flex
-              scrollable: true
-              components:
-                - PageHeaderImage
-                - custom:Twitter
+{% codeblock lang:yaml %}
+Twitter:
+  screens:
+    - name: index
+      regions:
+        -
+          size: fixed
+          scrollable: false
+          components:
+            - PageNav
+        -
+          size: flex
+          scrollable: true
+          components:
+            - PageHeaderImage
+            - custom:Twitter
+{% endcodeblock %}
 
 Next, we'd define our Twitter component (`mulberry create_component Twitter`), which would create the skeleton of a component file:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 dojo.provide('client.components.Twitter');
 
 toura.component('Twitter', {
@@ -67,19 +69,19 @@ toura.component('Twitter', {
 
   }
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 One of the things the skeleton contains is a reference to the template for the component. The `create_component` command creates this file, which defines the DOM structure for the component. For the sake of this component, that template will just need to contain one line:
 
-{% highlight haml %}
+{% codeblock lang:haml %}
 %ul.component.twitter
-{% endhighlight %}
+{% endcodeblock %}
 
 As I mentioned earlier, Mulberry components automatically get access to all of the assets that are attached to the node they're displaying. This information is available as an object at `this.node`. Mulberry components also have two default methods that you can implement: the `prep` method and the `init` method.
 
 The `prep` method is an opportunity to prepare your data before it's rendered using the template; we won't use it for the Twitter component, because the Twitter component will go out and fetch its data *after* the template is rendered. This is where the `init` method comes in -- this is where you can tell your component what to do. Here's what our Twitter component ends up looking like:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 dojo.provide('client.components.Twitter');
 
 mulberry.component('Twitter', {
@@ -122,7 +124,7 @@ mulberry.component('Twitter', {
     this.region.refreshScroller();
   }
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 Note that when we define the `data` variable in the init method, we look at `this.node.data`, which is an array of all of the data objects associated with the node. We filter this array to find the first data object that is the right type -- this means we can have lots of different data objects associated with a given node.
 

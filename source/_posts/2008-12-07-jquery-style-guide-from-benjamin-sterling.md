@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-12-07"
 title: jQuery Style Guide from Benjamin Sterling

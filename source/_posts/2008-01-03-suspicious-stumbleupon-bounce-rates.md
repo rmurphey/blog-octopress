@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-01-03"
 title: Suspicious StumbleUpon Bounce Rates?
@@ -9,11 +9,6 @@ categories: analytics, blogging, bounce rate, google, stumbleupon
 I've been promoting some of my blog posts by submitting them to <a href="http://www.stumbleupon.com">StumbleUpon</a>, and it's been generating a fair bit of traffic -- my post "How I Learned CSS" has done especially well. I've been watching my site using Google Analytics, and I've noticed that visitors from StumbleUpon have a substantially lower <a href="http://en.wikipedia.org/wiki/Bounce_Rate">bounce rate</a> than, say, visitors from <a href="http://www.dzone.com">dzone</a>. So I think, "yay, StumbleUpon" and start submitting anything interesting I write to there.
 
 But in poking around in my Google Analytics a bit more, I've also noticed that, on pages that I've promoted through SU, I'm seeing strange navigation patterns: for "How I Learned CSS," 40% of visits to the page came from the page itself (and, as it logically follows, 40% of next pages were the page itself). The page was viewed a total of 4,700 times, but a little more than 2,800 of those pageviews were unique. Since bounce rate basically measures whether a new arrival went to another page before leaving the site, I'm not sure it shouldn't count as a bounce if the second page the user visits is the same as the one they were already on.
-
-<div class='p_embed p_image_embed'>
-<img alt="" src="http://blog.rebeccamurphey.com/wp-content/uploads/2008/01/stumbleupon-bounce-rates3.thumbnail.png" />
-</div>
-
 
 I'm not seeing this pattern with pages I don't promote on SU, which makes me curious. SU is clearly driving a ton of traffic to my site; it's just not clear that the traffic is actually resulting in the remarkably low bounce rate that Google Analytics shows. If I took out the 40% of people whose next page was the page they were already on, I'm left with not even 1% of people who went to another, different page on the site before leaving -- and suddenly dzone is looking good again.
 

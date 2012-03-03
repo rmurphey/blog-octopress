@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2009-10-15"
 title: Using Objects to Organize Your Code
@@ -18,85 +18,84 @@ categories: howto, jquery
 
 <p>The object literal pattern offers a way to organize code by the behaviors it comprises. It’s also a means to keep your code from “polluting the global namespace,” which is a good practice for all projects and imperative for larger ones. It forces you to think at the outset about what your code will do and what pieces need to be in place in order for you to do it. An object literal is a way to encapsulate related behaviors, as shown here:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="keyword">var</span> myObjectLiteral = {
-    <span class="function">myBehavior1</span> : <span class="keyword">function</span>() {
-        <span class="comment">/* do something */</span>
+{% codeblock lang:javascript %}
+var myObjectLiteral = {
+    myBehavior1 : function() {
+        /* do something */
     },
 
-    <span class="function">myBehavior2</span> : <span class="keyword">function</span>() {
-        <span class="comment">/* do something else */</span>
+    myBehavior2 : function() {
+        /* do something else */
     }
-};</pre></div>
-</div>
+};
+{% endcodeblock %}
 
 
 <p>As an artificially simplistic example, suppose you had the jQuery shown in Listing 2 for showing and hiding content when a list item was clicked.</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="predefined">$</span>(document).ready(<span class="keyword">function</span>() {
-    <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#myFeature li</span><span class="delimiter">'</span></span>)
-        .append(<span class="string"><span class="delimiter">'</span><span class="content">&lt;div/&gt;</span><span class="delimiter">'</span></span>)
-        .each(<span class="keyword">function</span>() {
-            <span class="predefined">$</span>(<span class="local-variable">this</span>).find(<span class="string"><span class="delimiter">'</span><span class="content">div</span><span class="delimiter">'</span></span>)
-                .load(<span class="string"><span class="delimiter">'</span><span class="content">foo.php?item=</span><span class="delimiter">'</span></span> + <span class="predefined">$</span>(<span class="local-variable">this</span>).attr(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>));
+{% codeblock lang:javascript %}
+$(document).ready(function() {
+    $('#myFeature li')
+        .append('<div/>')
+        .each(function() {
+            $(this).find('div')
+                .load('foo.php?item=' + $(this).attr('id'));
         })
-    .click(<span class="keyword">function</span>() {
-        <span class="predefined">$</span>(<span class="local-variable">this</span>).find(<span class="string"><span class="delimiter">'</span><span class="content">div</span><span class="delimiter">'</span></span>).show();
-        <span class="predefined">$</span>(<span class="local-variable">this</span>).siblings().find(<span class="string"><span class="delimiter">'</span><span class="content">div</span><span class="delimiter">'</span></span>).hide();
+    .click(function() {
+        $(this).find('div').show();
+        $(this).siblings().find('div').hide();
     });
-});</pre></div>
-</div>
-
+});
+{% endcodeblock %}
 
 <p>Simple enough, and yet even in this example there are several things you might want to change later — for example, the way you determine the URL for loading the content, the destination of the loaded content, or the show and hide behavior.  An object literal representation of the feature cleanly separates these aspects. It might look like this:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="keyword">var</span> myFeature = {
-    <span class="key">config</span> : {
-        <span class="key">wrapper</span> : <span class="string"><span class="delimiter">'</span><span class="content">#myFeature</span><span class="delimiter">'</span></span>,
-        <span class="key">container</span> : <span class="string"><span class="delimiter">'</span><span class="content">div</span><span class="delimiter">'</span></span>,
-        <span class="key">urlBase</span> : <span class="string"><span class="delimiter">'</span><span class="content">foo.php?item=</span><span class="delimiter">'</span></span>
+{% codeblock lang:javascript %}
+var myFeature = {
+    config : {
+        wrapper : '#myFeature',
+        container : 'div',
+        urlBase : 'foo.php?item='
     },
 
-    <span class="function">init</span> : <span class="keyword">function</span>(config) {
-        <span class="predefined">$</span>.extend(myFeature.config, config);
-        <span class="predefined">$</span>(myFeature.config.wrapper).find(<span class="string"><span class="delimiter">'</span><span class="content">li</span><span class="delimiter">'</span></span>).
-            each(<span class="keyword">function</span>() {
-                myFeature.getContent(<span class="predefined">$</span>(<span class="local-variable">this</span>));
+    init : function(config) {
+        $.extend(myFeature.config, config);
+        $(myFeature.config.wrapper).find('li').
+            each(function() {
+                myFeature.getContent($(this));
             }).
-            click(<span class="keyword">function</span>() {
-                myFeature.showContent(<span class="predefined">$</span>(<span class="local-variable">this</span>));
+            click(function() {
+                myFeature.showContent($(this));
             });
     },
 
-    <span class="function">buildUrl</span> : <span class="keyword">function</span>(<span class="predefined">$li</span>) {
-        <span class="keyword">return</span> myFeature.config.urlBase + <span class="predefined">$li</span>.attr(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>);
+    buildUrl : function($li) {
+        return myFeature.config.urlBase + $li.attr('id');
     },
 
-    <span class="function">getContent</span> : <span class="keyword">function</span>(<span class="predefined">$li</span>) {
-        <span class="predefined">$li</span>.append(myFeature.config.container);
-        <span class="keyword">var</span> url = myFeature.buildUrl(<span class="predefined">$li</span>);
-        <span class="predefined">$li</span>.find(myFeature.config.container).load(url);
+    getContent : function($li) {
+        $li.append(myFeature.config.container);
+        var url = myFeature.buildUrl($li);
+        $li.find(myFeature.config.container).load(url);
     },
 
-    <span class="function">showContent</span> : <span class="keyword">function</span>(<span class="predefined">$li</span>) {
-        <span class="predefined">$li</span>.find(<span class="string"><span class="delimiter">'</span><span class="content">div</span><span class="delimiter">'</span></span>).show();
-        myFeature.hideContent(<span class="predefined">$li</span>.siblings());
+    showContent : function($li) {
+        $li.find('div').show();
+        myFeature.hideContent($li.siblings());
     },
 
-    <span class="function">hideContent</span> : <span class="keyword">function</span>(<span class="predefined">$elements</span>) {
-        <span class="predefined">$elements</span>.find(<span class="string"><span class="delimiter">'</span><span class="content">div</span><span class="delimiter">'</span></span>).hide();
+    hideContent : function($elements) {
+        $elements.find('div').hide();
     }
 };
 
-<span class="predefined">$</span>(document).ready(<span class="keyword">function</span>() { myFeature.init(); });</pre></div>
-</div>
+$(document).ready(function() { myFeature.init(); });
+{% endcodeblock %}
 
 
 <p>Because the initial example was incredibly simplistic, the object literal incarnation is longer. Truth be told, the object literal method generally won’t save you lines of code. What it will save is headaches. By using an object literal, we’ve broken our code into its logical parts, making it easy to locate the things we might want to change down the road. We’ve made our feature extendable, by providing the ability to pass in overrides to the default configuration. And, we’ve done some limited self-documentation — it’s easy to see at a glance what the feature does. As your needs grow beyond the simplicity of this example the benefits of the structure will become clearer, as you’ll see below.</p>
 
-<p>_Note: For an excellent primer on objects, properties, and methods, check out <a href="http://www.amazon.com/Object-Oriented-JavaScript-high-quality-applications-libraries/dp/1847194141">Object-Oriented JavaScript: Create scalable, reusable high-quality JavaScript applications and libraries</a> by Stoyan Stefanov. You may also want to read up on JSON (JavaScript Object Notation).</p>
+<p>_Note: For an excellent primer on objects, properties, and methods, check out <a href="http://www.amazon.com/Object-Oriented-JavaScript-high-quality-applications-libraries/dp/1847194141">Object-Oriented JavaScript: Create scalable, reusable high-quality JavaScript applications and libraries</a> by Stoyan Stefanov. You may also want to read up on JSON (JavaScript Object Notation)._</p>
 
 <h2>An in-depth example</h2>
 
@@ -130,110 +129,108 @@ categories: howto, jquery
 
 <p>We’ll also make room for a configuration property, <code>myFeature.config</code>, which will be a single location for setting default values rather than scattering them throughout the code. We’ll include the ability to override the defaults when we define the <code>myFeature.init()</code> method.</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="keyword">var</span> myFeature = {
-    <span class="key"><span class="delimiter">'</span><span class="content">config</span><span class="delimiter">'</span></span> : { },
-    <span class="key"><span class="delimiter">'</span><span class="content">init</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() { },
-    <span class="key"><span class="delimiter">'</span><span class="content">buildSectionNav</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() { },
-    <span class="key"><span class="delimiter">'</span><span class="content">buildItemNav</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() { },
-    <span class="key"><span class="delimiter">'</span><span class="content">showSection</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() { },
-    <span class="key"><span class="delimiter">'</span><span class="content">showContentItem</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() { }
-};</pre></div>
-</div>
-
+{% codeblock lang:javascript %}
+var myFeature = {
+    'config' : { },
+    'init' : function() { },
+    'buildSectionNav' : function() { },
+    'buildItemNav' : function() { },
+    'showSection' : function() { },
+    'showContentItem' : function() { }
+};
+{% endcodeblock %}
 
 <h3>Step 3: The Code</h3>
 
 <p>Once we’ve built this skeleton, it’s time to start coding. Let’s start by setting up a simple <code>myFeature.config</code> object and writing the <code>myFeature.init()</code> method:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="string"><span class="delimiter">'</span><span class="content">config</span><span class="delimiter">'</span></span> : {
-    <span class="comment">// default container is #myFeature</span>
-    <span class="key"><span class="delimiter">'</span><span class="content">container</span><span class="delimiter">'</span></span> : <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#myFeature</span><span class="delimiter">'</span></span>)
+
+{% codeblock lang:javascript %}
+'config' : {
+    // default container is #myFeature
+    'container' : $('#myFeature')
 },
 
-<span class="key"><span class="delimiter">'</span><span class="content">init</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(config) {
-    <span class="comment">// provide for custom configuration via init()</span>
-    <span class="keyword">if</span> (config &amp;&amp; <span class="keyword">typeof</span>(config) == <span class="string"><span class="delimiter">'</span><span class="content">object</span><span class="delimiter">'</span></span>) {
-        <span class="predefined">$</span>.extend(myFeature.config, config);
+'init' : function(config) {
+    // provide for custom configuration via init()
+    if (config && typeof(config) == 'object') {
+        $.extend(myFeature.config, config);
     }
 
-    <span class="comment">// create and/or cache some DOM elements </span>
-    <span class="comment">// we'll want to use throughout the code</span>
-    myFeature.<span class="predefined">$container</span> = myFeature.config.container;
+    // create and/or cache some DOM elements
+    // we'll want to use throughout the code
+    myFeature.$container = myFeature.config.container;
 
-    myFeature.<span class="predefined">$sections</span> = myFeature.<span class="predefined">$container</span>.
-        <span class="comment">// only select immediate children!</span>
-        find(<span class="string"><span class="delimiter">'</span><span class="content">ul.sections &gt; li</span><span class="delimiter">'</span></span>);
+    myFeature.$sections = myFeature.$container.
+        // only select immediate children!
+        find('ul.sections > li');
 
-    myFeature.<span class="predefined">$section_nav</span> = <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">&lt;p/&gt;</span><span class="delimiter">'</span></span>)
-      .attr(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">section_nav</span><span class="delimiter">'</span></span>)
-      .prependTo(myFeature.<span class="predefined">$container</span>);
+    myFeature.$section_nav = $('<p/>')
+      .attr('id','section_nav')
+      .prependTo(myFeature.$container);
 
-    myFeature.<span class="predefined">$item_nav</span> = <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">&lt;p/&gt;</span><span class="delimiter">'</span></span>)
-      .attr(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">item_nav</span><span class="delimiter">'</span></span>)
-      .insertAfter(myFeature.<span class="predefined">$section_nav</span>);
+    myFeature.$item_nav = $('<p/>')
+      .attr('id','item_nav')
+      .insertAfter(myFeature.$section_nav);
 
-    myFeature.<span class="predefined">$content</span> = <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">&lt;p/&gt;</span><span class="delimiter">'</span></span>)
-      .attr(<span class="string"><span class="delimiter">'</span><span class="content">id</span><span class="delimiter">'</span></span>,<span class="string"><span class="delimiter">'</span><span class="content">content</span><span class="delimiter">'</span></span>)
-      . insertAfter(myFeature.<span class="predefined">$item_nav</span>);
+    myFeature.$content = $('<p/>')
+      .attr('id','content')
+      . insertAfter(myFeature.$item_nav);
 
-  <span class="comment">// build the section-level nav and    </span>
-  <span class="comment">// &quot;click&quot; the first item</span>
-  myFeature.buildSectionNav(myFeature.<span class="predefined">$sections</span>);
-  myFeature.<span class="predefined">$section_nav</span>.find(<span class="string"><span class="delimiter">'</span><span class="content">li:first</span><span class="delimiter">'</span></span>).click();
+  // build the section-level nav and
+  // "click" the first item
+  myFeature.buildSectionNav(myFeature.$sections);
+  myFeature.$section_nav.find('li:first').click();
 
-  <span class="comment">// hide the plain HTML from sight</span>
-  myFeature.<span class="predefined">$container</span>.find(<span class="string"><span class="delimiter">'</span><span class="content">ul.sections</span><span class="delimiter">'</span></span>).hide();
+  // hide the plain HTML from sight
+  myFeature.$container.find('ul.sections').hide();
 
-  <span class="comment">// make a note that the initialization    </span>
-  <span class="comment">// is complete; we don't strictly need this   </span>
-  <span class="comment">// for this iteration, but it can come in handy   </span>
-  myFeature.initialized = <span class="predefined-constant">true</span>;
-}</pre></div>
-</div>
+  // make a note that the initialization
+  // is complete; we don't strictly need this
+  // for this iteration, but it can come in handy
+  myFeature.initialized = true;
+}
+{% endcodeblock %}
 
 
 <p>Next we’ll create the <code>myFeature.buildSectionNav()</code> method:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="string"><span class="delimiter">'</span><span class="content">buildSectionNav</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(<span class="predefined">$sections</span>) {
+{% codeblock lang:javascript %}
+'buildSectionNav' : function($sections) {
 
-    <span class="comment">// iterate over the provided list of sections</span>
-    <span class="predefined">$sections</span>.each(<span class="keyword">function</span>() {
+    // iterate over the provided list of sections
+    $sections.each(function() {
 
-        <span class="comment">// get the section</span>
-        <span class="keyword">var</span> <span class="predefined">$section</span> = <span class="predefined">$</span>(<span class="local-variable">this</span>);
+        // get the section
+        var $section = $(this);
 
-        <span class="comment">// create a list item for the section navigation</span>
-        <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">&lt;li/&gt;</span><span class="delimiter">'</span></span>)
-          <span class="comment">// use the text of the first h2</span>
-          <span class="comment">// in the section as the text for</span>
-          <span class="comment">// the section navigation</span>
-          .text(<span class="predefined">$section</span>.find(<span class="string"><span class="delimiter">'</span><span class="content">h2:first</span><span class="delimiter">'</span></span>).text())
+        // create a list item for the section navigation
+        $('<li/>')
+          // use the text of the first h2
+          // in the section as the text for
+          // the section navigation
+          .text($section.find('h2:first').text())
 
-          <span class="comment">// add the list item to the section navigation</span>
-          .appendTo(myFeature.<span class="predefined">$section_nav</span>)
+          // add the list item to the section navigation
+          .appendTo(myFeature.$section_nav)
 
-          <span class="comment">// use data() to store a reference</span>
-          <span class="comment">// to the original section on the</span>
-          <span class="comment">// newly-created list item</span>
-          .data(<span class="string"><span class="delimiter">'</span><span class="content">section</span><span class="delimiter">'</span></span>, <span class="predefined">$section</span>)
+          // use data() to store a reference
+          // to the original section on the
+          // newly-created list item
+          .data('section', $section)
 
-          <span class="comment">// bind the click behavior</span>
-          <span class="comment">// to the newly created list itme</span>
-          <span class="comment">// so it will show the section</span>
+          // bind the click behavior
+          // to the newly created list itme
+          // so it will show the section
           .click(myFeature.showSection);
-});</pre></div>
-</div>
-
+    });
+}
+{% endcodeblock %}
 
 <p>Next we’ll create the <code>myFeature.buildItemNav()</code> method:</p>
 
-<p>&lsquo;buildItemNav&rsquo; : function($items) {</p>
-
-<div class="CodeRay">
-  <div class="code"><pre>// iterate over the provided list of items
+{% codeblock lang:javascript %}
+// iterate over the provided list of items
 $items.each(function() {
 
     // get the item
@@ -241,7 +238,7 @@ $items.each(function() {
 
     // create a list item element for the
     // item navigation
-    $('&lt;li&gt;')
+    $('<li>')
 
       // use the text of the first h3
       // in the item as the text for the
@@ -261,192 +258,189 @@ $items.each(function() {
       // show the content item
       .click(myFeature.showContentItem);
 
-});</pre></div>
-</div>
-
+});
+{% endcodeblock %}
 
 <p>Finally, we’ll write the methods for showing sections and content items:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="string"><span class="delimiter">'</span><span class="content">showSection</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() {
-    <span class="comment">// capture the list item that was clicked on</span>
-  <span class="keyword">var</span> <span class="predefined">$li</span> = <span class="predefined">$</span>(<span class="local-variable">this</span>);
+{% codeblock lang:javascript %}
+'showSection' : function() {
+    // capture the list item that was clicked on
+  var $li = $(this);
 
-  <span class="comment">// clear out the left nav and content area</span>
-  myFeature.<span class="predefined">$item_nav</span>.empty();
-  myFeature.<span class="predefined">$content</span>.empty();
+  // clear out the left nav and content area
+  myFeature.$item_nav.empty();
+  myFeature.$content.empty();
 
-  <span class="comment">// get the jQuery section object from the orginal HTML,</span>
-  <span class="comment">// which we stored using data() during buildSectionNav</span>
-  <span class="keyword">var</span> <span class="predefined">$section</span> = <span class="predefined">$li</span>.data(<span class="string"><span class="delimiter">'</span><span class="content">section</span><span class="delimiter">'</span></span>);
+  // get the jQuery section object from the orginal HTML,
+  // which we stored using data() during buildSectionNav
+  var $section = $li.data('section');
 
-  <span class="comment">// mark the clicked list item as current</span>
-  <span class="comment">// and remove the current marker from its siblings</span>
-  <span class="predefined">$li</span>.addClass(<span class="string"><span class="delimiter">'</span><span class="content">current</span><span class="delimiter">'</span></span>)
-    .siblings().removeClass(<span class="string"><span class="delimiter">'</span><span class="content">current</span><span class="delimiter">'</span></span>);
+  // mark the clicked list item as current
+  // and remove the current marker from its siblings
+  $li.addClass('current')
+    .siblings().removeClass('current');
 
-  <span class="comment">// find all of the items related to the section</span>
-  <span class="keyword">var</span> <span class="predefined">$items</span> = <span class="predefined">$section</span>.find(<span class="string"><span class="delimiter">'</span><span class="content">ul li</span><span class="delimiter">'</span></span>);
+  // find all of the items related to the section
+  var $items = $section.find('ul li');
 
-  <span class="comment">// build the item nav for the section</span>
-  myFeature.buildItemNav(<span class="predefined">$items</span>);
+  // build the item nav for the section
+  myFeature.buildItemNav($items);
 
-  <span class="comment">// &quot;click&quot; on the first list item in the section's item nav</span>
-  myFeature.<span class="predefined">$item_nav</span>.find(<span class="string"><span class="delimiter">'</span><span class="content">li:first</span><span class="delimiter">'</span></span>).click();
+  // "click" on the first list item in the section's item nav
+  myFeature.$item_nav.find('li:first').click();
 
 },
 
-<span class="key"><span class="delimiter">'</span><span class="content">showContentItem</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() {
-  <span class="keyword">var</span> <span class="predefined">$li</span> = <span class="predefined">$</span>(<span class="local-variable">this</span>);
+'showContentItem' : function() {
+  var $li = $(this);
 
-  <span class="comment">// mark the clicked list item as current</span>
-  <span class="comment">// and revmoe the current marker from its siblings</span>
-  <span class="predefined">$li</span>.addClass(<span class="string"><span class="delimiter">'</span><span class="content">current</span><span class="delimiter">'</span></span>)
-    .siblings().removeClass(<span class="string"><span class="delimiter">'</span><span class="content">current</span><span class="delimiter">'</span></span>);
+  // mark the clicked list item as current
+  // and revmoe the current marker from its siblings
+  $li.addClass('current')
+    .siblings().removeClass('current');
 
-  <span class="comment">// get the jQuery item object from the original HTML,</span>
-  <span class="comment">// which we stored using data during buildContentNav</span>
-  <span class="keyword">var</span> <span class="predefined">$item</span> = <span class="predefined">$li</span>.data(<span class="string"><span class="delimiter">'</span><span class="content">item</span><span class="delimiter">'</span></span>);
+  // get the jQuery item object from the original HTML,
+  // which we stored using data during buildContentNav
+  var $item = $li.data('item');
 
-  <span class="comment">// use the item's HTML to populate the content area</span>
-  myFeature.<span class="predefined">$content</span>.html(<span class="predefined">$item</span>.html());
-}</pre></div>
-</div>
+  // use the item's HTML to populate the content area
+  myFeature.$content.html($item.html());
+}
+{% endcodeblock %}
 
 
 <p>All that’s left to do is to call the myFeature.init() method:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="predefined">$</span>(document).ready(myFeature.init);</pre></div>
-</div>
-
-
-<p>You can see the whole thing (including a little CSS to make it presentable) <a href="http://www.rebeccamurphey.com/jsmag/object-literal/">here</a>.</p>
+{% codeblock lang:javascript %}
+$(document).ready(myFeature.init);
+{% endcodeblock %}
 
 <h3>Step 4: Changing Requirements</h3>
 
 <p>No project is complete without some last-minute change in the requirements, right? Here’s where the object literal approach really shines by making it quick and fairly painless to implement last-minute changes.  What if we need to get the content item excerpts via AJAX instead of from the HTML? Assuming the backend is set up to handle it, try this:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="keyword">var</span> myFeature = {
+{% codeblock lang:javascript %}
+var myFeature = {
 
-    <span class="key"><span class="delimiter">'</span><span class="content">config</span><span class="delimiter">'</span></span> : {
-        <span class="key"><span class="delimiter">'</span><span class="content">container</span><span class="delimiter">'</span></span> : <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#myFeature</span><span class="delimiter">'</span></span>),
+    'config' : {
+        'container' : $('#myFeature'),
 
-        <span class="comment">// configurable function for getting</span>
-        <span class="comment">// a URL for loading item content</span>
-        <span class="key"><span class="delimiter">'</span><span class="content">getItemURL</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(<span class="predefined">$item</span>) {
-            <span class="keyword">return</span> <span class="predefined">$item</span>.find(<span class="string"><span class="delimiter">'</span><span class="content">a:first</span><span class="delimiter">'</span></span>).attr(<span class="string"><span class="delimiter">'</span><span class="content">href</span><span class="delimiter">'</span></span>);
+        // configurable function for getting
+        // a URL for loading item content
+        'getItemURL' : function($item) {
+            return $item.find('a:first').attr('href');
         }
 
     },
 
-    <span class="key"><span class="delimiter">'</span><span class="content">init</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(config) {
-        <span class="comment">// stays the same   </span>
+    'init' : function(config) {
+        // stays the same
     },
 
-    <span class="key"><span class="delimiter">'</span><span class="content">buildSectionNav</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(<span class="predefined">$sections</span>) {
-        <span class="comment">// stays the same   </span>
+    'buildSectionNav' : function($sections) {
+        // stays the same
     },
 
-    <span class="key"><span class="delimiter">'</span><span class="content">buildItemNav</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(<span class="predefined">$items</span>) {
-        <span class="comment">// stays the same   </span>
+    'buildItemNav' : function($items) {
+        // stays the same
     },
 
-    <span class="key"><span class="delimiter">'</span><span class="content">showSection</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() {
-        <span class="comment">// stays the same</span>
+    'showSection' : function() {
+        // stays the same
     },
 
-    <span class="key"><span class="delimiter">'</span><span class="content">showContentItem</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() {
+    'showContentItem' : function() {
 
-        <span class="keyword">var</span> <span class="predefined">$li</span> = <span class="predefined">$</span>(<span class="local-variable">this</span>);
+        var $li = $(this);
 
-        <span class="predefined">$li</span>.addClass(<span class="string"><span class="delimiter">'</span><span class="content">current</span><span class="delimiter">'</span></span>).
-            siblings().removeClass(<span class="string"><span class="delimiter">'</span><span class="content">current</span><span class="delimiter">'</span></span>);
+        $li.addClass('current').
+            siblings().removeClass('current');
 
-        <span class="keyword">var</span> <span class="predefined">$item</span> = <span class="predefined">$li</span>.data(<span class="string"><span class="delimiter">'</span><span class="content">item</span><span class="delimiter">'</span></span>);
-        <span class="keyword">var</span> url = myFeature.config.getItemURL(<span class="predefined">$item</span>);
+        var $item = $li.data('item');
+        var url = myFeature.config.getItemURL($item);
 
-        <span class="comment">// myFeature.$content.html($item.html());</span>
-        myFeature.<span class="predefined">$content</span>.load(url);
+        // myFeature.$content.html($item.html());
+        myFeature.$content.load(url);
 
     }
 
-};</pre></div>
-</div>
+};
+{% endcodeblock %}
 
 
 <p>Do you need more flexibility? There’s a lot more you can configure (and therefore override) if you really want to make this flexible. For example, you can use myFeature.config to specify how to find and process the title text for each item in the left nav.</p>
 
-<div class="CodeRay">
-  <div class="code"><pre><span class="keyword">var</span> myFeature = {
-    <span class="key"><span class="delimiter">'</span><span class="content">config</span><span class="delimiter">'</span></span> : {
-        <span class="key"><span class="delimiter">'</span><span class="content">container</span><span class="delimiter">'</span></span> : <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">#myFeature</span><span class="delimiter">'</span></span>),
+{% codeblock lang:javascript %}
 
-        <span class="comment">// specify the default selector</span>
-        <span class="comment">// for finding the text to use</span>
-        <span class="comment">// for each item in the item nav</span>
-        <span class="key"><span class="delimiter">'</span><span class="content">itemNavSelector</span><span class="delimiter">'</span></span> : <span class="string"><span class="delimiter">'</span><span class="content">h3</span><span class="delimiter">'</span></span>,
+var myFeature = {
+    'config' : {
+        'container' : $('#myFeature'),
 
-        <span class="comment">// specify a default callback </span>
-        <span class="comment">// for &quot;processing&quot; the jQuery object</span>
-        <span class="comment">// returned by the itemNavText selector</span>
-        <span class="key"><span class="delimiter">'</span><span class="content">itemNavProcessor</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(<span class="predefined">$selection</span>) {
-            <span class="keyword">return</span> <span class="string"><span class="delimiter">'</span><span class="content">Preview of </span><span class="delimiter">'</span></span> +
-                <span class="predefined">$selection</span>.eq(<span class="integer">0</span>).text();
+        // specify the default selector
+        // for finding the text to use
+        // for each item in the item nav
+        'itemNavSelector' : 'h3',
+
+        // specify a default callback
+        // for "processing" the jQuery object
+        // returned by the itemNavText selector
+        'itemNavProcessor' : function($selection) {
+            return 'Preview of ' +
+                $selection.eq(0).text();
         }
     },
 
-    <span class="key"><span class="delimiter">'</span><span class="content">init</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(config) {
-        <span class="comment">// stays the same</span>
+    'init' : function(config) {
+        // stays the same
     },
 
-    <span class="key"><span class="delimiter">'</span><span class="content">buildSectionNav</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(<span class="predefined">$sections</span>) {
-        <span class="comment">// stays the same</span>
+    'buildSectionNav' : function($sections) {
+        // stays the same
     },
 
-    <span class="key"><span class="delimiter">'</span><span class="content">buildItemNav</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>(<span class="predefined">$items</span>) {
+    'buildItemNav' : function($items) {
 
-        <span class="predefined">$items</span>.each(<span class="keyword">function</span>() {
-            <span class="keyword">var</span> <span class="predefined">$item</span> = <span class="predefined">$</span>(<span class="local-variable">this</span>);
+        $items.each(function() {
+            var $item = $(this);
 
-            <span class="comment">// use the selector and processor </span>
-            <span class="comment">// from the config</span>
-            <span class="comment">// to get the text for each item nav</span>
-            <span class="keyword">var</span> myText = myFeature.config.itemNavProcessor(
-                <span class="predefined">$item</span>.find(myFeature.config.itemNavSelector)
+            // use the selector and processor
+            // from the config
+            // to get the text for each item nav
+            var myText = myFeature.config.itemNavProcessor(
+                $item.find(myFeature.config.itemNavSelector)
             );
 
-            <span class="predefined">$</span>(<span class="string"><span class="delimiter">'</span><span class="content">&lt;li/&gt;</span><span class="delimiter">'</span></span>)
-            <span class="comment">// use the new variable                 </span>
-            <span class="comment">// as the text for the nav item                 </span>
+            $('<li/>')
+            // use the new variable
+            // as the text for the nav item
               .text(myText)
-              .appendTo(myFeature.<span class="predefined">$item_nav</span>)
-              .data(<span class="string"><span class="delimiter">'</span><span class="content">item</span><span class="delimiter">'</span></span>, <span class="predefined">$item</span>)
+              .appendTo(myFeature.$item_nav)
+              .data('item', $item)
               .click(myFeature.showContentItem);
       });
   },
 
-  <span class="key"><span class="delimiter">'</span><span class="content">showSection</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() {
-    <span class="comment">// stays the same   </span>
+  'showSection' : function() {
+    // stays the same
   },
 
-  <span class="key"><span class="delimiter">'</span><span class="content">showContentItem</span><span class="delimiter">'</span></span> : <span class="keyword">function</span>() {
-    <span class="comment">// stays the same   </span>
+  'showContentItem' : function() {
+    // stays the same
   }
 
-};</pre></div>
-</div>
+};
+{% endcodeblock %}
+
 
 
 <p>Once you’ve added defaults to the config object, you can override them when you call <code>myFeature.init()</code>:</p>
 
-<div class="CodeRay">
-  <div class="code"><pre>$(document).ready(function() {
+{% codeblock lang:javascript %}
+$(document).ready(function() {
     myFeature.init({ 'itemNavSelector' : 'h2' });
-});</pre></div>
-</div>
-
+});
+{% endcodeblock %}
 
 <p>Beyond the scope of this article (but also interesting to contemplate and much easier with the object literal pattern) is this: making the back button retrace your path through the tabs using the jQuery history plugin. I leave it as an exercise for the reader.</p>
 

@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2009-09-16"
 title: On speaking at the 2009 jQuery Conference

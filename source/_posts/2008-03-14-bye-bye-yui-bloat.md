@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-03-14"
 title: Bye bye YUI bloat

@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-04-11"
 title: Remote Javascript with document.write() is killing me
@@ -6,14 +6,7 @@ comments: true
 categories: front-end development, javascript
 ---
 
-I have been coming across way too much remote Javascript that uses document.write() to insert its contents. From ad providers to video hosting services, it's common practice to provide a Javascript tag like:
-
-<div class="CodeRay">
-  <div class="code"><pre></pre></div>
-</div>
-
-
-and tell the site owner to just include it in their page where the ad or content should appear.
+I have been coming across way too much remote Javascript that uses document.write() to insert its contents. From ad providers to video hosting services, it's common practice to provide a Javascript tag that includes `document.write` and tell the site owner to just include it in their page where the ad or content should appear.
 
 This is a great least-common-denominator approach for folks who don't want to be bothered with understanding how this stuff works. The problem is that when an ad or a video or any other content loaded via remote Javascript needs to appear near the top of the HTML document, before the content, the site user doesn't see any more content while the browser fetches the file. In the case of one service we tried, the initial script tag actually wrote <em>five more</em> remote script tags, each of which requires a separate HTTP request, amounting to a total delay of more than a second before the content appeared. In the meantime, the user was staring at a near-empty page.
 
@@ -23,10 +16,9 @@ If these services want people to stop complaining that their sites are loading s
 
 For example:
 
-<div class="CodeRay">
-  <div class="code"><pre>ad.appendTo('#my_ad_container');</pre></div>
-</div>
-
+{% codeblock lang:javascript %}
+ad.appendTo('#my_ad_container');
+{% endcodeblock %}
 
 I grant that this would require a bit more code from the ad providers (and that their ads would load a little bit later than they do now), but the improvement in user experience would be tremendous, relative to waiting as much as a second or two for the ad — and thus the rest of the page — to load.
 

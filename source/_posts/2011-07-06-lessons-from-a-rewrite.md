@@ -106,7 +106,7 @@ templates were actually executable, and then compile those templates into plain
 JavaScript files for production. Here are a few lines from one of those
 templates:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 /* {{^android}} */
 var mediaPath = "www/media/" + toura.pages.currentId + "/";
 /* {{/android}} */
@@ -118,7 +118,7 @@ var pos = -1, count = 0;
 /* {{#android}} */
 var pos = 0, count = 0;
 /* {{/android}} */
-{% endhighlight %}
+{% endcodeblock %}
 
 These templates were impossible to check with a code quality tool like JSHint,
 because it was standard to declare the same variable multiple times. Multiple
@@ -198,7 +198,7 @@ this was dealt with in various ways: sometimes a method would take a success
 callback and a failure callback; other times a function would return an object
 and check one of its properties on an interval.
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 images = toura.sqlite.getMedias(id, "image");
 
 var onGetComplete = setInterval(function () {
@@ -208,7 +208,7 @@ var onGetComplete = setInterval(function () {
   clearInterval(onGetComplete);
   showImagesHelper(images.objs, choice)
 },10);
-{% endhighlight %}
+{% endcodeblock %}
 
 The problem here, of course, is that if `images.incomplete` never gets set to
 false — that is, if the `getMedias` method fails — then the interval will never
@@ -216,9 +216,9 @@ get cleared. Dojo and now jQuery (since version 1.5) offer a facility for
 handling this situation in an elegant and powerful way. In the new version of
 the app, the above functionality looks something like this:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 toura.app.Data.get(id, ‘image’).then(showImages, showImagesFail);
-{% endhighlight %}
+{% endcodeblock %}
 
 The `get` method of `toura.app.Data` returns an [immutable promise](http://www.sitepen.com/blog/2010/05/03/robust-promises-with-dojo-deferred-1-5/)
 — the promise’s then method makes the resulting value of the asynchronous get
@@ -274,7 +274,7 @@ our components. Each one should do one thing and do it well.
 For example, simply rendering a page involves several small, single-purpose
 components:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 function nodeRoute(route, nodeId, pageState) {
   pageState = pageState || {};
 
@@ -306,7 +306,7 @@ function nodeRoute(route, nodeId, pageState) {
 
   return true;
 }
-{% endhighlight %}
+{% endcodeblock %}
 
 The router observes a URL change, parses the parameters for the route from the
 URL, and passes those parameters to a function. The Data component gets the
@@ -330,13 +330,13 @@ announces the selection via the list’s onSelect method. Dojo allows us to
 connect to the execution of object methods, so in the page controller, we have
 this:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 this.connect(this.videoList, 'onSelect', function(assetId) {
   var video = this.\_videoById(assetId);
   this.videoCaption.set('content', video.caption || '');
   this.videoPlayer.play(assetId);
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 The page controller receives the message and passes it along to the other
 components that need to know about it — components don’t communicate directly

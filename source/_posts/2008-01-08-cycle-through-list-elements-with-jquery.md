@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-01-08"
 title: Cycle through list elements with jQuery
@@ -12,32 +12,29 @@ In the meantime, here's my latest iteration of cycling through items in an unord
 
 First, let's assume we have this HTML:
 
-<div class="CodeRay">
-  <div class="code"><pre></pre></div>
-</div>
+{% codeblock lang:html %}
 <ul>
   <li>Item 1</li>
   <li>Item 2</li>
   <li>Item 3</li>
 </ul>
-
-
+{% endcodeblock %}
 
 We'll start by verifying that there's more than one item before we do all the rest of the work. (Of course, if your list length doesn't vary, this <code>if</code> isn't necessary.)
 
-<div class="CodeRay">
-  <div class="code"><pre>var $list = $('#myList');
+{% codeblock lang:javascript %}
+var $list = $('#myList');
 
 if ($list.length &gt; 1) {
   ...
-}</pre></div>
-</div>
+}
+{% endcodeblock %}
 
 
 Following the principles of progressive enhancement, we don't want to include navigation elements in the HTML if they will only work with Javascript; rather, we want to add them with Javascript:
 
-<div class="CodeRay">
-  <div class="code"><pre>var $list = $('#myList');
+{% codeblock lang:javascript %}
+var $list = $('#myList');
 
 if ($list.length &gt; 1) {
   // put the nav before the list
@@ -48,14 +45,14 @@ if ($list.length &gt; 1) {
   $('#nav img').css({cursor: 'pointer'});
   $('#nav img:first').attr('src','backButton.gif');
   $('#nav img:last').attr('src','forwardButton.gif');
-}</pre></div>
-</div>
+}
+{% endcodeblock %}
 
 
 The comes the fun part: adding the behaviors to the nav buttons. This is where it pays to keep in mind the power of the DOM; in past iterations of this, I've seriously overthought the logic.
 
-<div class="CodeRay">
-  <div class="code"><pre>var $list = $('#myList');
+{% codeblock lang:javascript %}
+var $list = $('#myList');
 
 if ($list.length &gt; 1) {
   // put the nav before the list
@@ -85,14 +82,14 @@ if ($list.length &gt; 1) {
           show();
     });
 
-}</pre></div>
-</div>
+}
+{% endcodeblock %}
 
 
 But what happens if there's not a next <code>li</code> when you click on the forward button, or a previous <code>li</code> when you click on the back button?
 
-<div class="CodeRay">
-  <div class="code"><pre>var $list = $('#myList');
+{% codeblock lang:javascript %}
+var $list = $('#myList');
 
 if ($list.length &gt; 1) {
   // put the nav before the list
@@ -114,10 +111,11 @@ if ($list.length &gt; 1) {
       // if there wasn't a previous li,
       // show the last li in the list
       if ($('li:visible',$list).length
+{% endcodeblock %}
 
 One last thing: we need to hide all the list items and then show the first one:
 
-
+{% codeblock lang:javascript %}
 var $list = $('#myList');
 
 if ($list.length &gt; 1) {
@@ -144,9 +142,10 @@ if ($list.length &gt; 1) {
       // if there wasn't a previous li,
       // show the last li in the list
       if ($('li:visible',$list).length
+{% endcodeblock %}
 
-For extra fun:</pre></div>
-</div>
+For extra fun:
+
 <ul>
 <li>
 <a href="http://blog.rebeccamurphey.com/2007/12/11/jquery-plugin-randomly-reorder-children-elements/">Randomly reorder</a> the list items before you add the rest of the code</li>

@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-04-07"
 title: Fix for slow-loading Google ads
@@ -12,9 +12,8 @@ We ran into this with the ad in the left column of some pages on <a href="http:/
 
 Since these ads only work when Javascript is enabled anyway, I decided to use some DOM manipulation (via jQuery, which is already on the page) to load the ad script in a hidden div at the bottom of the HTML, and then relocate the Javascript-generated iframe containing the ad to an empty, visible div where the ad needed to be:
 
-<div class="CodeRay">
-  <div class="code"><pre>$('#ad_hide').find('iframe').appendTo('#ad');</pre></div>
-</div>
-
+{% codeblock lang:javascript %}
+$('#ad_hide').find('iframe').appendTo('#ad');</pre></div>
+{% endcodeblock %}
 
 Now, loading the Javascript doesn't slow down the rendering of the content, and the ad appears right after the page is loaded.

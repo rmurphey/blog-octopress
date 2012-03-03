@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-12-05"
 title: Avoid bare class selectors in jQuery
@@ -8,10 +8,9 @@ categories: jquery, optimization, selectors
 
 It just happened again: I was looking at someone else's jQuery and I came across something like this:
 
-<div class="CodeRay">
-  <div class="code"><pre>$('.button').click(function() { /* do something */ });</pre></div>
-</div>
-
+{% codeblock lang:javascript %}
+$('.button').click(function() { /* do something */ });
+{% endcodeblock %}
 
 This is a classic case of "just because you can, doesn't mean you should." This little bit of jQuery will, indeed, find every element on a page with a class of "button", but that's exactly the problem: it has to look at every element on the page to figure out which ones match the selector. It seems short and sweet, like so much of jQuery is, but on a page with a lot of elements, this selector can actually take a non-trivial amount of time to run.
 
@@ -24,10 +23,11 @@ There are a few ways to avoid this:
 <li>Give jQuery some information about where to look for the element. For example: <code>$('#myForm .button')</code>
 </li>
 <li>Use an element you've already found to tell jQuery where to find the element:
-<div class="CodeRay">
-  <div class="code"><pre>var $ul = $('#myUnorderedList')
-var $li = $ul.find('.selected');</pre></div>
-</div>
+
+{% codeblock lang:javascript %}
+var $ul = $('#myUnorderedList')
+var $li = $ul.find('.selected');
+{% endcodeblock %}
 
 </li>
 </ul>

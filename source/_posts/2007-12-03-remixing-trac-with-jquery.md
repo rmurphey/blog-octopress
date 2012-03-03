@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2007-12-03"
 title: Remixing trac with jQuery
@@ -15,8 +15,8 @@ The story so far:
 <ul>
 <li>Our clients use trac for internal approval of a request before it gets sent to us -- a content provider can enter a request, which then gets reviewed by a manager. We needed a way to assign this manager to the ticket, without the manager becoming the "owner" of the ticket. Initially, we had content providers entering their manager's email address into the Cc: field, but that didn't go over well. Now, jQuery reuses the existing Assign to menu to build a manager dropdown, with the usernames of our employees removed. When the ticket is submitted, the manager is added to the Cc: field automatically.
 
-<div class="CodeRay">
-  <div class="code"><pre>// build the new dropdown
+{% codeblock lang:javascript %}
+// build the new dropdown
 var custom_cc_select = '';
 $('#custom-form').append(custom_cc_select);
 $('#field-owner option').each(function() {
@@ -32,22 +32,19 @@ $('div.ticket form').submit(function() {
   var manager = $('#custom-cc option:selected').html();
   if (oldCc != '') { $('#field-cc').val(oldCC + ', ' + manager); }
   else { $('#field-cc').val(manager); }
-});</pre></div>
-</div>
-
+});
+{% endcodeblock %}
 
 </li>
 
 <li>The standard trac ticket fields were exactly what we needed, but the labels for them were a little confusing to client users. Plus, the form was ugly. A few lines of jQuery created a new section in the form, moved the fields to that section without their table-based layout, reordered the fields and and relabeled them. For example:
 
-<div class="CodeRay">
-  <div class="code"><pre>$('#field-component'). // get the component dropdown
-  remove(). // remove it from the DOM but maintain access to it
-  appendTo('#custom-form'). // put it at the end of the #custom-form div
-  before('Request Type');
-  // put a new label before it</pre></div>
-</div>
-
+{% codeblock lang:javascript %}
+$('#field-component'). // get the component dropdown
+remove(). // remove it from the DOM but maintain access to it
+appendTo('#custom-form'). // put it at the end of the #custom-form div
+before('Request Type'); // put a new label before it
+{% endcodeblock %}
 
 The new form makes more sense to the client users, reduces errors and omissions, and looks better too.</li>
 

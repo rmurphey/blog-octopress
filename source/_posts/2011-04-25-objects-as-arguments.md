@@ -8,7 +8,7 @@ categories: javascript
 
 I was reviewing some code last week and came across a snippet that looked a lot like this:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 var someObject = {
   // ...
 
@@ -21,7 +21,7 @@ var someObject = {
     // ...
   }
 };
-{% endhighlight %}
+{% endcodeblock %}
 
 My immediate response was to suggest that it didn't make sense to be passing
 four separate arguments to `someMethod`, especially when the arguments were
@@ -45,14 +45,14 @@ every day: `dojo.connect(node, 'click', contextObj, 'handlerMethod')`. Ohnoes.
 So where do you draw the line? Certainly you could write that `dojo.connect`
 call like so:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 dojo.connect({
   node : node,
   event : 'click',
   context : contextObj,
   method : 'handlerMethod'
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 This, though, might make you poke your eyes out. It certainly isn't as concise
 as the four-argument approach, and it makes a lot of things like
@@ -67,9 +67,9 @@ Probably the most compelling reason to use an object is when there are several
 optional arguments. For example, last fall I was reviewing some code from a
 potential training client, and I came across this:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 addBling('#awesome', 'fuchsia', 'slow', null, null, 3, 'done!');
-{% endhighlight %}
+{% endcodeblock %}
 
 No one can argue that this is not terrible, and yet every experienced
 JavaScript developer knows how the developer(s) who wrote it arrived there. At
@@ -89,7 +89,7 @@ instead: optional arguments. When the developer discovered that the original,
 three-argument `addBling` could be used for the five-argument case as well, it
 was probably time to refactor:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 // original
 addBling('#awesome', 'fuchsia', 'slow');
 
@@ -98,23 +98,23 @@ addBling('#awesome', {
   color : 'fuchsia',
   speed : 'slow'
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 Then, the same function could be used while passing it more information about
 how to behave in the five-argument case:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 addBling('#omgSoAwesome', {
   color : 'fuchsia',
   speed : 'slow',
   unicorns : 3,
   rainbows : 5
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 Then, when it came time to add yet more bling, the function signature wouldn't need to change,
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 addBling('#awesome', {
   color : 'fuchsia',
   speed : 'slow',
@@ -130,20 +130,20 @@ addBling('#omgSoAwesome', {
   timesToBlink : 9001,
   alertOnSuccess : 'woohoo!'
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 ## Extensibility and Future-Proofing
 
 Another case for passing in an object is when you want the flexibility that an
 object provides, even if your code doesn't require it for now:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 var Person = function(args) {
   this.firstName = args.firstName;
   this.lastName = args.lastName;
   return this;
 };
-{% endhighlight %}
+{% endcodeblock %}
 
 For now, you only want to be able to provide the first and last name of the
 person -- it would work just fine to create a function signature for the
@@ -156,24 +156,24 @@ arguments quickly becomes unsustainable. Besides that, though, it also makes
 assigning instance properties a pain in the ass. By passing an object, we can
 rewrite the above code as such:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 var Person = function(args) {
   dojo.mixin(this, args);
   // jQuery: $.extend(this, args);
   return this;
 };
-{% endhighlight %}
+{% endcodeblock %}
 
 Now -- assuming this is what we want -- we can mix in *any* settings we provide
 in the `args` argument. Dojo, for example, bakes this ability in to anything
 that inherits from `dijit._Widget`:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 var thinger = new my.Thinger({
   title : 'Favorite Animals',
   animals : [ 'Narwhal', 'Lemur', 'Honey Badger' ]
 });
-{% endhighlight %}
+{% endcodeblock %}
 
 ## Use Objects for Related Data
 
@@ -184,9 +184,9 @@ Person was asynchronous, and we wanted to run a function once our Person was
 created? In a (contrived) case like that, I think it does make sense to pass in
 a separate argument:
 
-{% highlight javascript %}
+{% codeblock lang:javascript %}
 new Person(configObj, fn);
-{% endhighlight %}
+{% endcodeblock %}
 
 In this particular example, we still only have two arguments -- we haven't
 wandered into that muddy realm of four or more. That said, I think this

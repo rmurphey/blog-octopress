@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2007-12-24"
 title: How I learned CSS

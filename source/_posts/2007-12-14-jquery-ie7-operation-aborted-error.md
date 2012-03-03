@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2007-12-14"
 title: jQuery IE7 "Operation Aborted" error

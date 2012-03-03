@@ -1,4 +1,4 @@
---- 
+---
 layout: post
 date: "2008-01-10"
 title: "Solved: AJAX returns bad results in Internet Explorer"
@@ -24,8 +24,8 @@ IE6 has decided that the result from the first time you set field1 to 1000 was g
 
 The solution? Add a timestamp to your requests, so each one will look different to IE even if the real data is the same:
 
-<div class="CodeRay">
-  <div class="code"><pre>// just an example; you'd
+{% codeblock lang:javascript %}
+// just an example; you'd
 // obviously build this from
 // the field itself
 var data = 'field1=1000';
@@ -35,8 +35,7 @@ var timestamp = new Date().getTime();
 data = data + '&amp;' + timestamp;
 
 // now you can send your data
-// using ajax</pre></div>
-</div>
-
+// using ajax
+{% endcodeblock %}
 
 Thankfully, when this happened to me yesterday, I had a coworker who only needed a couple of minutes with the server logs to figure out what was happening. After he figured it out here, I found <a href="http://groups.google.com/group/jquery-en/browse_thread/thread/a40b6fb572232e3b">this thread</a>, which verified the cause, and I was able to solve it in a few minutes.
