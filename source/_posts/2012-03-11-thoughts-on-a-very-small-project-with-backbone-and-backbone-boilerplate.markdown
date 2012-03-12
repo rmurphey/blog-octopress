@@ -53,7 +53,7 @@ enormous head start when it came to incorporating
 setting up a development server. It also included some great inline docs that
 helped me get my bearings with Backbone.
 
-There are a couple of ways I thik the boilerplate could be improved, and I'd be
+There are a couple of ways I think the boilerplate could be improved, and I'd be
 curious for others' opinions:
 
 - The sample app includes the concept of "modules," which seem to be a single
