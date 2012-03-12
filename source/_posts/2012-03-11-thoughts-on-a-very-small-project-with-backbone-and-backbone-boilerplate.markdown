@@ -62,8 +62,7 @@ curious for others' opinions:
   because it seems to discourage smart reuse and unit testing of each piece of
   functionality. In the app I created, I abandoned the concept of modules, and
   instead broke my app into "components", "controllers", and "services". I
-  explain this breakdown in a bit more depth in the [presentation I gave at
-  BazaarVoice](http://www.slideshare.net/rmurphey/bvjs). I'm not sure this is
+  explain this breakdown in a bit more depth in the [presentation I gave at BazaarVoice](http://www.slideshare.net/rmurphey/bvjs). I'm not sure this is
   the right answer for all apps, but I think modules oversimplify things.
 - The boilerplate includes a `namespace.js` file. It defines a namespace
   object, and that object includes a `fetchTemplate` method. It seems this
