@@ -3,7 +3,6 @@ layout: post
 title: "Girls and Computers"
 date: 2012-03-25 12:00
 comments: true
-categories:
 ---
 
 After a week that seemed just chock full of
@@ -56,7 +55,7 @@ happen if I got every single one right.
 
 A string of computers followed. My parents bought a [Coleco Adam](http://en.wikipedia.org/wiki/Coleco_Adam) when we moved
 to Horseheads, New York -- apparently the computer came with a certificate
-redeemable for $100 upon my graduation from high school, but Coleco folded long
+redeemable for $500 upon my graduation from high school, but Coleco folded long
 before they could cash it in. I made my first real money by typing a crazy
 lady's crazy manuscript about crazy food into an Apple IIe that we had plugged
 into our TV, and my uncle and I spent almost the entirety of his visit from
@@ -65,9 +64,9 @@ Oklahoma writing a game of Yahtzee! on that computer, again in BASIC.
 ![Me at a computer fair at the mall with my sister, my mother, and my friend
 Michael](/images/rebecca-computer.jpg)
 
-*Above: Me at a computer fair at the mall with my apparently indignant sister, my
+*Above: Me at a computer fair at the mall with my sister, my
 mother, and my friend Michael. "You were giving us all a tutorial, I can tell,"
-says my mom.*
+says my mom. Note the 5-1/4" external floppy drive.*
 
 In middle school, I started a school newspaper, and I think we used some
 prehistoric version of PageMaker to lay it out. When high school rolled around,
@@ -103,7 +102,7 @@ or building my own or doing anything particularly interesting with them, but I
 was using them, I was telling them what to do and they were mostly listening,
 and *it never made me feel like I was weird*. To the contrary, it made me
 feel powerful and empowered. I felt like a part of this ever-growing community
-of peple who understood, eventually, that computers were going to change the
+of people who understood, eventually, that computers were going to change the
 world. It was the people who didn't understand this who were weird and beneath
 us. It was the people who understood computers better than me of whom I stood in
 awe.

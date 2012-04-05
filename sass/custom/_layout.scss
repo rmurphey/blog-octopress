@@ -19,3 +19,20 @@
 //$sidebar-pad-medium: 15px;
 //$sidebar-pad-wide: 20px;
 //$sidebar-width-wide: 300px;
+
+#content div.about {
+  section {
+    padding: 2em 2em 1em 2em;
+  }
+
+  ul {
+    margin-left: 1.5em;
+  }
+
+  // font-family: Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  border-bottom: 1px solid #d0d0d0;
+  font-size: 80%;
+  line-height: 1.4em;
+  width: 100%;
+}
