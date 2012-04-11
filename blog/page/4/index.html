@@ -9,8 +9,7 @@
   <meta name="author" content="Rebecca Murphey">
 
   
-  <meta name="description" content="This is a reprint of an article that originally appeared in the October
-issue of JSMag. I recently had the opportunity to architect the front-end of &hellip;">
+  <meta name="description" content="I came across a little code the other day that reminded me I&#8217;ve been meaning to write about JavaScript patterns I take for granted. The code in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,14 +67,548 @@ issue of JSMag. I recently had the opportunity to architect the front-end of &he
 <ul class="main-navigation">
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="http://rebeccamurphey.com">About</a></li>
 </ul>
 
 </nav>
   <div id="main">
     <div id="content">
       <div class="blog-index">
+
+<div class="about">
+  <section>
+    <h1>Well, hello. I&#8217;m Rebecca.</h1>
+    <p>I’m a senior JavaScript engineer at <a
+  href="http://bocoup.com">Bocoup</a>, the co-host of the <a
+  href="http://yayquery.com">yayQuery podcast</a>, a co-organizer of <a
+  href="http://texasjavascript.com">TXJS</a>, a contributor to the jQuery
+  Cookbook from O’Reilly, and the author of the open-source <a
+  href="http://jqfundamentals.com">jQuery Fundamentals</a>.  I speak and write
+  frequently about JavaScript topics, including talks at JSConf.eu 2010 and
+  JSConf 2011. I live in Durham, North Carolina, with my partner, our dog Ellie, and
+  two terrible cats.
+
+  This is my blog, but you can also find me elsewhere on the internet:</p>
+
+  <p>
+    <a href="http://twitter.com/rmurphey">Twitter</a> |
+    <a href="http://www.linkedin.com/in/rmurphey">LinkedIn</a> |
+    <a href="http://www.slideshare.net/rmurphey">Slideshare</a> |
+    <a href="http://github.com/rmurphey">Github</a> |
+    <a href="http://coderwall.com/rmurphey">Coderwall</a>
+  </p>
+  </section>
+</div>
+
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/12/patterns-for-dry-er-javascript/">Patterns for DRY-er JavaScript</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-12T00:00:00-04:00" pubdate data-updated="true">Jul 12<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/07/12/patterns-for-dry-er-javascript/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I came across a little code the other day that reminded me I&#8217;ve been meaning to write about JavaScript patterns I take for granted. The code in question was intended to set the value of some fields in a form when a checkbox was selected; when it was deselected, the same fields were to be emptied. It looked not unlike this:</p>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// config is defined outside of this snippet,</span>
+</span><span class='line'><span class="c1">// and may contain more than the properties</span>
+</span><span class='line'><span class="c1">// we care about </span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#myCheckbox&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">checked</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#field_foo&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#field_bar&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">bar</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#field_baz&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">baz</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#field_foo&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#field_bar&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#field_baz&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>This is a wholly readable bit of code &#8211; there&#8217;s almost no question what&#8217;s going on here. On the other hand, it&#8217;s pretty easy to see the rampant repetition; this code isn&#8217;t interested in &#8220;don&#8217;t repeat yourself&#8221; (DRY). We&#8217;re calling the same method on every selection we make, and our selections are repeated in both the if and else block.   When I saw this code, I had an immediate inclination to rewrite it. Here&#8217;s what I came up with first:</p>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// config is defined outside of this snippet,</span>
+</span><span class='line'><span class="c1">// and may contain more than the properties</span>
+</span><span class='line'><span class="c1">// we care about</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#myCheckbox&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// note whether the checkbox is checked</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">checked</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">checked</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// iterate over the keys we care about</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">([</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;baz&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// find the field for the given key</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#field_&#39;</span> <span class="o">+</span> <span class="nx">v</span><span class="p">)</span>
+</span><span class='line'>      <span class="c1">// and set its value either to the string</span>
+</span><span class='line'>      <span class="c1">// stored for the key, or to an empty string,</span>
+</span><span class='line'>      <span class="c1">// depending on whether the checkbox was checked</span>
+</span><span class='line'>      <span class="p">.</span><span class="nx">val</span><span class="p">(</span><span class="nx">checked</span> <span class="o">?</span> <span class="nx">config</span><span class="p">[</span><span class="nx">v</span><span class="p">]</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>This looks approximately nothing like the initial code, and without the
+comments, the code itself would be substantially less readable than the
+original. The idealistic part of me &#8211; the part that believes people who write
+JavaScript should understand JavaScript &#8211; says this is an acceptable price to
+pay. And besides, there&#8217;s something to be said for explaining the code in a
+comment that can be stripped by a minifier, rather than explaining the code via
+the code.  In this iteration, we&#8217;ve introduced two patterns for DRY-er code:
+iterating over an array literal (or, alternately, an object) to achieve
+repetition without repeating ourselves, and using the ternary operator in place
+of an if/else statement when the simplicity of our logic allows it.  The array
+literal serves as a list of the fields we care about. When our checkbox is
+clicked, we iterate over this list, build up a selector for each item in the
+list, make our selection, and then set the field value using a <a
+href="http://stackoverflow.com/questions/1788917/javascript-ternary-operator">ternary
+operator</a>. We&#8217;ve gone from 11 lines of code to six, with the added bonus
+that we have to do a lot less typing if we need our checkbox to affect more
+fields.
+
+(A side note: Is this premature optimization? I&#8217;d argue no, if you&#8217;ve
+learn to see these patterns before you start writing code. Once you learn how
+to spot these patterns in a requirement, writing code that embraces them can
+actually be easier than writing code that takes a more &#8220;literal&#8221; approach to
+the problem. For example, imagine if the checkbox affected 20 other fields
+instead of one? You&#8217;d undoubtedly find yourself copying and pasting code if you
+took the more &#8220;literal&#8221; approach to the problem, and that would be your first
+clue that you were doing something inefficiently.)
+
+The great thing about using a pattern like this is that it rapidly exposes the
+actual meat of what you&#8217;re doing, and makes refactoring far less painful. I
+also find that it helps me see opportunities for reuse that I might not have
+spotted in the more literal version of the code.  Let&#8217;s say we&#8217;re feeling all
+proud of ourselves for DRYing out our code using clever JavaScript that only
+super-smart people can read. Now there&#8217;s another checkbox that needs similar
+behavior, but it&#8217;s going to use a different config object and a different list
+of fields. No problem! You&#8217;ve already written this code, so you can just copy
+and paste it and then change what&#8217;s different. Sweet. Er &#8230; suddenly you&#8217;re
+not looking so DRY after all.  This is when another pattern comes into play:
+creating a function that returns another function with certain variables
+already baked in (that is, creating a closure). We&#8217;ll execute this creator
+function and then use the function it returns in place of the anonymous
+function we were using previously when we bound to the click event.</p>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// handleClick accepts a config object</span>
+</span><span class='line'><span class="c1">// and a makeSelector function; it returns</span>
+</span><span class='line'><span class="c1">// a function that can be bound to</span>
+</span><span class='line'><span class="c1">// a click event, using the config object</span>
+</span><span class='line'><span class="c1">// and the makeSelector function to react</span>
+</span><span class='line'><span class="c1">// appropriately to the click</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">handleClick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fields</span><span class="p">,</span> <span class="nx">config</span><span class="p">,</span> <span class="nx">makeSelector</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">checked</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">checked</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">fields</span> <span class="o">&amp;&amp;</span> <span class="nx">$</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">fields</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// build the selector using the provided</span>
+</span><span class='line'>      <span class="c1">// makeSelector function</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="nx">makeSelector</span><span class="p">(</span><span class="nx">v</span><span class="p">))</span>
+</span><span class='line'>              <span class="c1">// set the value using the</span>
+</span><span class='line'>              <span class="c1">// config object, depending</span>
+</span><span class='line'>              <span class="c1">// on whether the checkbox</span>
+</span><span class='line'>              <span class="c1">// is checked</span>
+</span><span class='line'>              <span class="p">.</span><span class="nx">val</span><span class="p">(</span><span class="nx">checked</span> <span class="o">?</span> <span class="nx">config</span><span class="p">[</span><span class="nx">v</span><span class="p">]</span><span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#myCheckbox&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span>
+</span><span class='line'>  <span class="c1">// use handleClick to create a function</span>
+</span><span class='line'>  <span class="c1">// that has these variables baked in;</span>
+</span><span class='line'>  <span class="c1">// pass the created function as the</span>
+</span><span class='line'>  <span class="c1">// click handling function</span>
+</span><span class='line'>  <span class="nx">handleClick</span><span class="p">(</span>
+</span><span class='line'>    <span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;baz&#39;</span><span class="p">],</span>
+</span><span class='line'>    <span class="nx">myCheckboxConfig</span><span class="p">,</span>
+</span><span class='line'>    <span class="kd">function</span><span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;#field_&#39;</span> <span class="o">+</span> <span class="nx">field</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="p">)</span>
+</span><span class='line'><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#myOtherCheckbox&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span>
+</span><span class='line'>  <span class="nx">handleClick</span><span class="p">(</span>
+</span><span class='line'>    <span class="p">[</span><span class="s1">&#39;bim&#39;</span><span class="p">,</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="s1">&#39;bop&#39;</span><span class="p">],</span>
+</span><span class='line'>    <span class="nx">myOtherCheckboxConfig</span><span class="p">,</span>
+</span><span class='line'>    <span class="kd">function</span><span class="p">(</span><span class="nx">field</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="s1">&#39;input[name=&amp;quot;&#39;</span> <span class="o">+</span> <span class="nx">field</span> <span class="o">+</span> <span class="s1">&#39;&amp;quot;]&#39;</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="p">)</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>By creating a function that returns a function, we can isolate what&#8217;s different about the two different handlers while centralizing the pieces that are the same. If your event handling function was slightly less trivial than this one, or if you were binding to five different checkboxes instead of two, the benefit of consolidating the code would be even more substantial.  JavaScript offers plenty of patterns for writing DRY-er code; it&#8217;s important to learn to both recognize and use them. It&#8217;s also important to recognize when you&#8217;re writing un-DRY code in the first place &#8211; copying and pasting code is one crystal-clear indicator, but others are more subtle and you may not identify them on the first go-round. For example, take these two functions; each receives a list item as its only argument and returns either the next or previous list item, returning to the beginning or end of the list if there is no next or previous item.</p>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">getNextItem</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">$item</span><span class="p">.</span><span class="nx">next</span><span class="p">().</span><span class="nx">length</span> <span class="o">?</span>
+</span><span class='line'>         <span class="nx">$item</span><span class="p">.</span><span class="nx">next</span><span class="p">()</span> <span class="o">:</span> <span class="nx">$items</span><span class="p">.</span><span class="nx">first</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">getPrevItem</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$item</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">$item</span><span class="p">.</span><span class="nx">prev</span><span class="p">().</span><span class="nx">length</span> <span class="o">?</span>
+</span><span class='line'>                <span class="nx">$item</span><span class="p">.</span><span class="nx">prev</span><span class="p">()</span> <span class="o">:</span> <span class="nx">$items</span><span class="p">.</span><span class="nx">last</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>This felt repetitive when I first wrote it, but I couldn&#8217;t quickly come up with a single function that would work. A little thinking about it, though, led me to this single function which gets a second argument: direction. That argument is used to decide whether to run the item&#8217;s next or previous method, and then whether to run the item&#8217;s first or last method. Besides combining two functions into one, it also eliminates calling next or prev twice inside each function.</p>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">getItem</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$item</span><span class="p">,</span> <span class="nx">direction</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">$returnItem</span> <span class="o">=</span> <span class="nx">$item</span><span class="p">[</span><span class="nx">direction</span><span class="p">]();</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">$returnItem</span><span class="p">.</span><span class="nx">length</span> <span class="o">?</span>
+</span><span class='line'>         <span class="nx">$returnItem</span> <span class="o">:</span>
+</span><span class='line'>         <span class="nx">$items</span><span class="p">[(</span><span class="nx">direction</span> <span class="o">==</span> <span class="s1">&#39;next&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;first&#39;</span> <span class="o">:</span> <span class="s1">&#39;last&#39;</span><span class="p">]();</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<p>Learning about patterns and then discovering opportunities to use them is one of the more pleasing parts of my job. I hope this helps you identify some of those opportunities for yourself :)</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/06/17/announcing-jquery-fundamentals-an-open-source-jquery-training-curriculum/">Announcing jQuery Fundamentals: An Open-Source jQuery Training Curriculum</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-17T00:00:00-04:00" pubdate data-updated="true">Jun 17<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/06/17/announcing-jquery-fundamentals-an-open-source-jquery-training-curriculum/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve been leading <a href="http://www.rebeccamurphey.com/training">jQuery trainings</a> for more than a year now, from tiny gatherings that I organized myself at the local coworking space, to intensive two-day sessions at local web companies, to whirlwind one-day classes at governmental agencies. Over the course of those trainings, I&#8217;ve developed what I&#8217;d like to think is a decent curriculum &#8211; training material that&#8217;s the size of a small book, exercises that demonstrate core concepts, and solutions to those exercises that students can peek at later or when they get stuck.</p>
+
+<p>I decided recently that it was time for all of this material to see the light of day, so I spent the last several days converting it all to DocBook files that allow for easy publication to HTML and PDF (and other formats, if I&#8217;m later so inclined). I also fleshed out some topics that I&#8217;d given short shrift, and started planning sections covering advanced topics such as plugin authoring, code organization, best practices, and more. There&#8217;s more to come in the next few days, but I think what I&#8217;ve done so far is worth sharing. I hope you&#8217;ll agree.</p>
+
+<ul>
+<li><a href="http://rebeccamurphey.com/jqfundamentals/">Full HTML version of jQuery Fundamentals book</a></li>
+<li><a href="http://rebeccamurphey.com/jqfundamentals/book/release/html/index.html">&#8220;Chunked&#8221; HTML version of jQuery Fundamentals book</a></li>
+<li>
+<a href="http://github.com/rmurphey/jqfundamentals/">GitHub repo</a> (exercises, solutions, and book source code)</li>
+</ul>
+
+
+
+
+<br />
+
+
+<p style="margin: 20px 0;"><div class='p_embed p_image_embed'>
+<a href="http://getfile9.posterous.com/getfile/files.posterous.com/import-vejw/bxqpHqGhgCJJadEpIijidbehCvswlGiiGvHwyiJGejyjvxwnEDdopGoHuswe/media_httpgyazocoma21_qFIfz.png.scaled1000.png"><img alt="Media_httpgyazocoma21_qfifz" height="507" src="http://getfile2.posterous.com/getfile/files.posterous.com/import-vejw/bxqpHqGhgCJJadEpIijidbehCvswlGiiGvHwyiJGejyjvxwnEDdopGoHuswe/media_httpgyazocoma21_qFIfz.png.scaled500.png" width="500" /></a>
+</div>
+</p>
+
+
+<br />
+
+
+<p>My goals in releasing this are several. First and foremost, I want to see people writing better jQuery. The free resources for learning jQuery are scattered across the internets, and my personal experience of learning the library was haphazard — it was a long time before I learned some things I wish I&#8217;d known from the get-go. In addition, I want people who are writing jQuery to understand JavaScript. To that end, the book begins with a survey of JavaScript itself before jumping into jQuery.  Finally, I want to enlist the bright minds of the jQuery community to help developing a robust, authoritative, in-depth jQuery curriculum, and in exchange it only seemed fair to make it available to everyone.</p>
+
+<p>I should mention that the goal of this material is to serve as a companion to a human instructor. That said, individuals may find it useful for self-study, especially if they&#8217;re diligent about doing the exercises at the end of each chapter.</p>
+
+<p>If you&#8217;re inclined to help &#8211; by adding a chapter, a section, a paragraph, an exercise, or even just a correction &#8211; fork the repo and send me a pull request. I look forward to seeing how this project might evolve with the community&#8217;s help.</p>
+
+<p><strong>Note</strong>: If you comment on this post pointing out an issue with the material, I will do my best to tend to the issue, but I probably won&#8217;t publish your comment, as this post isn&#8217;t the right place for reporting issues in the code. You can <a href="http://github.com/rmurphey/jqfundamentals/issues">report issues at the repository</a>, but if it&#8217;s important to you, <em>please</em> fork the repository, make the change, and send me a pull request.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/04/03/lessons-learned-from-taking-on-a-project-in-crisis/">Lessons Learned From Taking on a Project in Crisis</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-03T00:00:00-04:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2010</time>
+        
+         | <a href="/blog/2010/04/03/lessons-learned-from-taking-on-a-project-in-crisis/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I just got done with an emergency project for an agency developing a public-facing application for a mutinational technology client you&#8217;ve most certainly heard of. I developed the entire front-end &#8211; HTML, CSS, and JavaScript &#8211; for a non-trivial application with a limited spec in just seven days. The experience was so eye-opening that I feel the need to write down some of the things I&#8217;ve learned, in hopes that I can benefit from my experience in the future.</p>
+
+
+
+
+<ul>
+    <li>Demand all technical source material up front, such as functional specs, mockups, work that&#8217;s been done to date, etc. Give the client a fixed amount of time to deliver that source material, and don&#8217;t make a decision about taking on the project until you&#8217;ve seen it. What the client can deliver in that fixed amount of time will shed a lot of light on the state of the project and whether their expectations are realistic.</li>
+    <li>Set clear time expectations. Am I willing to work 16 hours a day? Am I expected to? Are there hours during which I&#8217;ll be expected to be available? Am I willing to work on the weekend?</li>
+    <li>Find out whether the client expects me to be available after the imminent deadline, and to what extent. The last thing I want is to snatch defeat from the jaws of victory by being unable to support the code I&#8217;ve written.</li>
+    <li>Do not accept responsibility for commitments made on my behalf. The recruiter said I&#8217;d be available six hours a day when I told him four? Not my problem. The client committed to having a feature ready for review without consulting me? They probably won&#8217;t make that mistake again.</li>
+    <li>Ascertain the rest of the team&#8217;s commitment to the project. If I&#8217;m expected to work long hours, will they be there during those long hours to get me what I need? Are there any constraints on their availability?</li>
+    <li>Establish a single point of contact at the client, and make clear I&#8217;ll be depending on them to get me any information I need and I&#8217;ll be treating their decisions as final. Insist that they participate in all calls I&#8217;m expected to participate in.</li>
+    <li>Limit the amount of work I do before I have access to all client systems I&#8217;ll need access to: version control, testing environments, ticketing systems, etc.</li>
+    <li>Insist on a ticketing system. I&#8217;m new to the project and I have a lot to get up to speed on. I don&#8217;t want emails flying at me from all directions &#8211; decisions and technical requirements need to be documented in a single place that everyone can see. This is my only insurance when someone wants to know why something isn&#8217;t done, or why it wasn&#8217;t done the way they expected.</li>
+    <li>Insist on version control, even if it&#8217;s something crappy like CVS. I&#8217;ll need a way to make sure the rest of the team has access to my latest and greatest. FTP blows, especially when I&#8217;m FTPing to a server where another developer is constantly deploying a new build, overwriting my work.</li>
+</ul>
+
+
+
+
+<p>What other advice do you have?</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/03/18/txjs-js-bbq-you/">TXJS: JS + BBQ + You</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-03-18T00:00:00-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2010</time>
+        
+         | <a href="/blog/2010/03/18/txjs-js-bbq-you/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If you follow me on Twitter, you&#8217;ve heard about <a href="http://txjs.eventbrite.com">TXJS</a> by now, but let me tell you: now that we&#8217;ve announced Douglas Crockford and John Resig, there is officially no way you should miss this. TXJS is a full-day conference set for June 5 in Austin, Texas, hosted by the <a href="http://txjs.eventbrite.com">yayQuery</a> team and featuring BBQ and a slew of awesome JavaScripters:</p>
+
+<ul>
+<li>
+<strong>Brandon Aaron</strong>, jQuery team member</li>
+<li>
+<strong>Tim Caswell</strong>, Node.js contributor and founder of <a href="http://howtonode.org">howtonode.org</a>
+</li>
+<li>
+<strong>Douglas Crockford</strong>, JavaScript architect at Yahoo! and author of &#8220;JavaScript: The Good Parts&#8221;</li>
+<li>
+<strong>Andrew Dupont</strong>, Prototype core team member</li>
+<li>
+<strong>Peter Higgins</strong>, Dojo project lead</li>
+<li>
+<strong>Paul Irish</strong>, jQuery team member and yayQuery podcast co-host</li>
+<li>
+<strong>Brian LeRoux</strong>, software architect at Nitobi and PhoneGap hacker/contributor</li>
+<li>
+<strong>Joe McCann</strong>, senior technologist at Frog Design</li>
+<li>
+<strong>John Resig</strong>, creator of the jQuery JavaScript library</li>
+<li>
+<strong>Alex Sexton</strong>, front-end developer and yayQuery podcast co-host</li>
+<li>
+<strong>Kyle Simpson</strong>, <a href="http://twitter.com/AustinJS">Austin JS</a> organizer and author of LABjs</li>
+<li>
+<strong>Adam Sontag</strong>, jQuery UI developer relations team member and yayQuery podcast co-host</li>
+<li>
+<strong>Mike Taylor</strong>, HTML5 aficionado and front-end developer at Tunecore</li>
+<li>
+<strong>Juriy Zaytsev</strong> (aka @kangax), expert JavaScript wrangler and Prototype core developer</li>
+</ul>
+
+
+<p>Earlybird tickets are just $49 while they last, and regular tickets are just $69, which is about as close to free as we could get. See you there!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1802,237 +2335,6 @@ matures.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/04/13/on-gaining-respect-as-a-front-end-developer/">On Gaining Respect as a Front-end Developer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-04-13T00:00:00-04:00" pubdate data-updated="true">Apr 13<span>th</span>, 2009</time>
-        
-         | <a href="/blog/2009/04/13/on-gaining-respect-as-a-front-end-developer/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Someone wrote me today:</p>
-
-<blockquote class="posterous_medium_quote">Where I work, design is highly valued with the leader of that group being our Creative Director, back end programmers are also highly valued, but front end &#8230; not so much. Partly I think its that I don&#8217;t toot my horn but I know there are other reasons. At times, my bosses haven&#8217;t even understood what it is that I do. Back end programmers look down on front end assuming that its trivial or something that should be relegated to compilers.
-
-I was wondering if this is a common thing or more so something that is happening at my particular company, and if you have any advice or pointers on this.</blockquote>
-
-
-<p>I thought my response might be worth sharing:</p>
-
-<p>I do think this attitude is common but not necessarily the rule. In my experience, I&#8217;ve found that by having a proven value proposition, you can gain converts and respect.</p>
-
-<p>Front end developers are in a unique position to improve page performance (perceived and actual) by using best practices such as the <a href="http://developer.yahoo.com/yslow/">YSlow</a> tests. Front end developers are also in a unique position to help develop templating systems and to write thoughtful CSS, both of which help enable the rapid prototyping and rollout of new features. A focus on results and best practices &#8211; demonstrating that you aren&#8217;t just pushing pixels around &#8211; is the key.</p>
-
-<p>Back end developers respect people who think like they do. Be mindful of opportunities for abstraction and reuse. Write <a href="http://www.slideshare.net/stubbornella/object-oriented-css">object-oriented CSS</a> and JavaScript. Craft solutions that are maintainable and documented. Learn and make use of <a href="http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html">version control</a> <a href="http://svnbook.red-bean.com/nightly/en/svn.intro.quickstart.html">systems</a>. Look for opportunities to participate in developer conversations about new features, and understand what the back end developers are up against. They&#8217;ll appreciate all of this.</p>
-
-<p>Take the time to teach and to learn. Be sure you have at least a passing understanding of the code the back end developers are writing, and leap at opportunities to share your knowledge. I&#8217;ve worked with more than one back end developer who was surprised to discover what all they didn&#8217;t know about the front end, and through our conversations about how we approached problems, we both learned a lot.</p>
-
-<p>Finally: identify opportunities for quick victories, execute on them, and make the results known. Benchmark before and after. Can you reduce the number of HTTP requests on a page, decreasing both the perceived and actual rendering time? Are you keeping your JavaScript out of the &lt;head&gt; as much as possible, preventing pages from stalling while rendering? Can you write JavaScript that is primed for reuse, and demonstrate opportunities for that reuse? Has your carefully crafted CSS allowed the rapid rollout of a new feature? Don&#8217;t be afraid to tell these stories &#8211; they&#8217;ll tend to strengthen your position by clarifying the important role the front-end developer plays in a site.</p>
-
-<p>Good luck :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/02/14/css-vs-tables-maybe-the-design-is-to-blame/">CSS vs. Tables: Maybe the Design Is to Blame?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-14T00:00:00-05:00" pubdate data-updated="true">Feb 14<span>th</span>, 2009</time>
-        
-         | <a href="/blog/2009/02/14/css-vs-tables-maybe-the-design-is-to-blame/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There&#8217;s been some backlash lately against CSS, and some of it seems so well reasoned that even I find myself wondering if tables are really so bad after all. From <a href="http://giveupandusetables.com/">giveupandusetables.com</a>, which says the maximum time to spend before abandoning CSS is 47 minutes, to the <a href="http://www.flownet.com/ron/css-rant.html">well-illustrated blog post by Ron Garret</a>, the general argument is that CSS isn&#8217;t up to the task of faithfully reproducing elaborate designs cross-browser in an acceptable amount of developer time.</p>
-
-<p>In his post about Garret&#8217;s article, <a href="http://ajaxian.com/archives/css-for-layout-another-rant">Dion Almaer at Ajaxian</a> opines:</p>
-
-<blockquote class="posterous_medium_quote">CSS purist[s] may poo poo him and say &#8220;he is just dumb and doesn&#8217;t REALLY know CSS.&#8221; The problem though is that most developers run into exactly the pain that he describes. We’ve all been there. It drives you nuts and when frustrated what do you do? You fluster about and change CSS like a mad man until it kinda looks right. And, you never learn what the real problem was, and thus destined to make the same mistake again.</blockquote>
-
-
-<p>It seems that while developers are thinking about sacrificing web standards for the perceived simplicity of tables, the viability of the design rarely enters the debate, and that&#8217;s a shame. In my experience, some of the most difficult designs to produce using CSS were fundamentally flawed from the get-go, created by designers who failed to grasp that the web is not like print.</p>
-
-<p><strong>The web is not like print.</strong> In print, designers have near-total control over the output, because the number of new &#8220;pages&#8221; &#8211; items of content &#8211; is limited by the cost of printing. If a print designer wants text vertically centered in a fixed-height column, or two columns that are exactly the same height, or rounded corners with drop shadows on top of gradients, there&#8217;s no reason they can&#8217;t have that. The cost of printing is sufficiently high, and print graphics programs are sufficiently sophisticated, that making those design decisions has no impact on the marginal cost of production.</p>
-
-<p>On the web, the marginal cost of creating a new page of content can be approximately zero, but to achieve that we <em>must</em> build pages that adapt to unpredictable content and unpredictable users. If we don&#8217;t, we won&#8217;t realize the economies of scale that the web has to offer. The tradeoff for that infinitesimally small marginal cost is that the rules have to be different, because the cost of implementing those print-centric design decisions is inordinately high. Instead of sophisticated graphics programs, the web has mere humans to turn PSDs into working pages; instead of content created by experts and pored over by editors, the web has volumes of user-generated content, and the ability to change it on a whim.</p>
-
-<p>On the web, equal-height columns will cease to be equal height when the content changes; vertically centered content will outgrow its fixed-height bounds; and rounded corners with drop shadows on gradients can&#8217;t possibly be worth the cost of producing them. These are not problems with CSS that should be solved with tables. They are, fundamentally, problems with the design.</p>
-
-<p>When I talk about this to other developers (and any designers who are willing to give me the time of day after I&#8217;m done pointing out how costly their design will be to produce), I make the analogy that it&#8217;s just as absurd to impose these print-centric design conventions on the web as it would be to use holograms for every picture in a magazine. Sure, you <em>can</em>, but that doesn&#8217;t mean you <em>should</em>.</p>
-
-<p><strong>So what&#8217;s a web developer to do?</strong> When designs reach the desk of the CSS developer, more often than not they&#8217;ve been through so many rounds of review, revision, and approval &#8211; by people far-removed from the realities of the web &#8211; that the developer has little choice but to toil away at reproducing them faithfully.</p>
-
-<p>The best defense may be a good offense, which is to say, the burden is on you, dear developer, to educate the misguided designers. Here are some tactics I&#8217;ve used:</p>
-
-<ul>
-<li>Impose yourself early in the process, insisting on wireframes and information architecture documents (even if they&#8217;re just sketches and an outline). Identify potential problems early on, but don&#8217;t become a naysayer &#8211; make sure you offer ideas, not just criticism.</li>
-<li>Push back &#8211; gently but firmly &#8211; on design decisions that have the potential to cause problems down the road. Ask lots of &#8220;what if&#8221; questions and insist on answers.</li>
-<li>Be honest about how long it will take you to accomplish a design &#8211; with yourself and with your boss or client &#8211; and identify opportunities to make cost-saving changes to the specifics of the design without changing its spirit.</li>
-<li>Have examples at the ready of similar problems solved in more web-centric ways. The <a href="http://developer.yahoo.com/ypatterns/">Yahoo! Design Patterns Library</a> can be an excellent resource for this, but look also to other sites in your industry or genre.</li>
-</ul>
-
-
-<p>The burden&#8217;s also on you to get better at CSS. I am lucky in that, when I first started playing around with web production, I was a little intimidated by tables. A background in print production steeped in templates and stylesheets made tables seem awkward and strange to me; CSS, temperamental as it was, at least bore some resemblance to the cascading style sheets of print production programs like Quark and InDesign.</p>
-
-<p>These days, it&#8217;s rarer and rarer (but not unheard of) that I find myself beating my head against the wall over a CSS problem. I&#8217;ve learned HTML and CSS patterns that I reuse often, and I&#8217;ve learned to spot &#8211; and speak up about &#8211; design-induced ratholes. If you&#8217;re finding yourself sucked in by the latest round of CSS vs. tables debate, take heart, stand firm, and reconsider the source of your frustration.</p>
-
-<h3>Useful things:</h3>
-
-
-<ul>
-<li><a href="http://blog.rebeccamurphey.com/2007/12/24/learning-css-web-design/">How I learned CSS</a></li>
-<li><a href="http://www.stubbornella.org/content/2009/02/12/css-doesn%E2%80%99t-suck-you%E2%80%99re-just-doing-it-wrong/">CSS doesn&#8217;t suck, you&#8217;re just doing it wrong</a></li>
-<li><a href="http://www.slideshare.net/stubbornella/object-oriented-css">Object-oriented CSS</a></li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/01/12/jquery-validation-and-tinymce/">jQuery Validation and TinyMCE</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-01-12T00:00:00-05:00" pubdate data-updated="true">Jan 12<span>th</span>, 2009</time>
-        
-         | <a href="/blog/2009/01/12/jquery-validation-and-tinymce/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Just solved a problem where the <a href="http://docs.jquery.com/Plugins/Validation">jQuery validation plugin</a> wasn&#8217;t playing so nicely with <a href="http://wiki.moxiecode.com/index.php/TinyMCE:Index">TinyMCE</a> &#8211; the validation plugin was trying to validate the textarea before TinyMCE had a chance to copy the editor contents back to the textarea. I was about to yank TinyMCE out of the page but a little reading through the TinyMCE docs led me to try this:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#mySubmitButton&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">content</span> <span class="o">=</span> <span class="nx">tinyMCE</span><span class="p">.</span><span class="nx">activeEditor</span><span class="p">.</span><span class="nx">getContent</span><span class="p">();</span> <span class="c1">// get the content</span>
-</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#myTextarea&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="nx">content</span><span class="p">);</span> <span class="c1">// put it in the textarea</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#myForm&#39;</span><span class="p">).</span><span class="nx">validate</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And what do you know, it works. One note: it&#8217;s important to bind the content replacement to the click event of the submit button, not to the actual form submission, or else the validation may try to run before the content gets copied back to the textarea.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2008/12/07/jquery-style-guide-from-benjamin-sterling/">jQuery Style Guide From Benjamin Sterling</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-12-07T00:00:00-05:00" pubdate data-updated="true">Dec 7<span>th</span>, 2008</time>
-        
-         | <a href="/blog/2008/12/07/jquery-style-guide-from-benjamin-sterling/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Just wanted to call attention to two excellent posts by Benjamin Sterling: <a href="http://benjaminsterling.com/better-jquery-code-1/">Better jQuery Code 1</a> and <a href="http://benjaminsterling.com/better-jquery-code-2/">Better jQuery Code 2</a>. He offers some must-have tips on style, form and best practices. Thanks to <a href="http://twitter.com/foobar2k">@foobar2k</a> for the link.</p>
-
-<p>One addition to his notes on caching selections by setting up references: I&#8217;m partial to giving references a variable name that starts with a dollar sign, like $links. For me, it serves as a good reminder that the variable is a reference to a jQuery object.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -2050,23 +2352,23 @@ I was wondering if this is a common thing or more so something that is happening
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/04/10/greenfielding/">Greenfielding</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/04/javascript-a-language-not-a-religion/">JavaScript: It&#8217;s a language, not a religion</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/26/bocoup/">Bocoup</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/25/girls-and-computers/">Girls and Computers</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/03/11/thoughts-on-a-very-small-project-with-backbone-and-backbone-boilerplate/">Thoughts on a (very) small project with Backbone and Backbone Boilerplate</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/08/community-conferences/">Community Conferences</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/09/18/introducing-mulberry/">Mulberry: A development framework for mobile apps</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/07/25/switching-to-octopress/">Switching to Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2011/07/24/object-literals/">Using object literals for flow control and settings</a>
       </li>
     
   </ul>
