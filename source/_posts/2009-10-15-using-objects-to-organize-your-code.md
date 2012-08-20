@@ -112,7 +112,74 @@ $(document).ready(function() { myFeature.init(); });
 </ul>
 
 
-<p>With those guidelines in mind, we’ll start with <a href="http://www.rebeccamurphey.com/jsmag/object-literal/">this html</a>.  Note that we haven’t included any markup to display the section navigation or the item navigation; those pieces will be added by jQuery since they will only work with jQuery; non-JavaScript users will get nice semantic markup. (If there’s anything surprising or confusing in that HTML, now would be a good time to read up on POSH (plain-old semantic HTML) and progressive enhancement.)</p>
+With those guidelines in mind, we’ll start with this html.
+
+{% codeblock lang:html %}
+
+<h1>This is My Nifty Feature</h1>
+
+<div id="myFeature">
+  <ul class="sections">
+    <li>
+      <h2><a href="/section/1">Section 1</a></h2>
+      <ul>
+        <li>
+          <h3><a href="/section/1/content/1">Section 1 Title 1</a></h3>
+          <p>The excerpt content for Content Item 1</p>
+        </li>
+        <li>
+          <h3><a href="/section/1/content/2">Section 1 Title 2</a></h3>
+          <p>The excerpt content for Content Item 2</p>
+        </li>
+        <li>
+          <h3><a href="/section/1/content/3">Section 1 Title 3</a></h3>
+          <p>The excerpt content for Content Item 3</p>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <h2><a href="/section/2">Section 2</a></h2>
+      <ul>
+        <li>
+          <h3><a href="/section/2/content/1">Section 2 Title 1</a></h3>
+          <p>The excerpt content for Content Item 1</p>
+        </li>
+        <li>
+          <h3><a href="/section/2/content/2">Section 2 Title 2</a></h3>
+          <p>The excerpt content for Content Item 2</p>
+        </li>
+        <li>
+          <h3><a href="/section/2/content/3">Section 2 Title 3</a></h3>
+          <p>The excerpt content for Content Item 3</p>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <h2><a href="/section/3">Section 3</a></h2>
+      <ul>
+        <li>
+          <h3><a href="/section/3/content/1">Section 3 Title 1</a></h3>
+          <p>The excerpt content for Content Item 1</p>
+        </li>
+        <li>
+          <h3><a href="/section/3/content/2">Section 3 Title 2</a></h3>
+          <p>The excerpt content for Content Item 2</p>
+        </li>
+        <li>
+          <h3><a href="/section/3/content/3">Section 3 Title 3</a></h3>
+          <p>The excerpt content for Content Item 3</p>
+        </li>
+      </ul>
+    </li>
+
+  </ul>
+</div>
+{% endcodeblock %}
+
+
+Note that we haven’t included any markup to display the section navigation or the item navigation; those pieces will be added by jQuery since they will only work with jQuery; non-JavaScript users will get nice semantic markup. (If there’s anything surprising or confusing in that HTML, now would be a good time to read up on POSH (plain-old semantic HTML) and progressive enhancement.)</p>
 
 <h3>Step 2: Scaffolding the Object</h3>
 
