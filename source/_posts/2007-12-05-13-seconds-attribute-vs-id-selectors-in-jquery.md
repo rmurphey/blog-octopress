@@ -3,7 +3,12 @@ layout: post
 date: "2007-12-05"
 title: "13 seconds: Attribute vs. ID selectors in jQuery"
 comments: true
-categories: javascript, jquery, regexp, selectors, vim
+categories:
+  - javascript
+  - jquery
+  - regexp
+  - selectors
+  - vim
 ---
 
 Before:

@@ -1,9 +1,8 @@
---- 
+---
 layout: post
 date: "2007-12-09"
 title: For only $25 more, this gift card comes in green
 comments: true
-categories: ""
 ---
 
 I was just at the online Apple store to buy an iTunes gift card for my mother (who hopefully will not be reading this blog) -- when you arrive from iTunes, it drops you on a page where you can choose from a variety of gift card designs. On this screen, it seems that there is a 1:1 relationship between colors and denominations -- for example, the $25 card only comes in red.

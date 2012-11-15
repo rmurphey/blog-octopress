@@ -1,9 +1,13 @@
---- 
+---
 layout: post
 date: "2007-12-09"
 title: Using ems for font sizing in css
 comments: true
-categories: css, front-end development, standards, thoughts
+categories:
+  - css
+  - front-end development
+  - standards
+  - thoughts
 ---
 
 A List Apart had a great article recently on <a href="http://www.alistapart.com/articles/howtosizetextincss/">using 'em' for CSS font-size declarations</a>, which served as great back-up for some conversations I'd been having among coworkers. (It turns out that people who didn't have a former life in print don't necessarily understand what an em is: a self-referential unit of font size measurement, equal to the height of the capital letter M. Back in the typesetting days, it was a unit for measuring space, especially horizontal space, in the form of an "em dash" (rendered now as <code>&amp;mdash;</code>) or an "em space." There was also a sister unit, the "en.")

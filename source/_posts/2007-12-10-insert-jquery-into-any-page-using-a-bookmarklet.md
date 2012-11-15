@@ -3,7 +3,11 @@ layout: post
 date: "2007-12-10"
 title: Insert jQuery into any page using a bookmarklet
 comments: true
-categories: bookmarklet, front-end development, javascript, jquery
+categories:
+  - bookmarklet
+  - front-end development
+  - javascript
+  - jquery
 ---
 
 Ever wish you could use jQuery on a page at the drop of a hat, without having access to the page itself? Well I'll be damned, <a href="http://simonwillison.net/2007/Aug/15/jquery/">you can</a>.

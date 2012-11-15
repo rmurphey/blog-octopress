@@ -41,7 +41,7 @@ Need to boost your git skills?
 
 ## Modularity, dependency management, and production builds
 
-The days of managing dependencies by throwing one more script or style tag on the page are long gone. Even if you haven't been able to incorporate great tools like [RequireJS](http://requirejs.org) into your workflow at work, you should find time to investigate them in a personal project or in a project like [Backbone Boilerplate](https://github.com/backbone-boilerplate/backbone-boilerplate), because the benefits they convey are huge. RequireJS in particular lets you develop with small, modular JS and CSS files, and then concatenates and minifies them via its optimization tool for production use.
+The days of managing dependencies by throwing one more script or style tag on the page are long gone. Even if you haven't been able to incorporate great tools like [RequireJS](http://requirejs.org) into your workflow at work, you should find time to investigate them in a personal project or in a project like [Backbone Boilerplate](https://github.com/tbranyen/backbone-boilerplate), because the benefits they convey are huge. RequireJS in particular lets you develop with small, modular JS and CSS files, and then concatenates and minifies them via its optimization tool for production use.
 
 Skeptical of AMD? That's no excuse to be doing nothing. At the very least, you should be aware of tools like [UglifyJS](https://github.com/mishoo/UglifyJS) or [Closure Compiler](https://developers.google.com/closure/compiler/) that will intelligently minify your code, and then concatenate those minified files prior to production.
 

@@ -3,7 +3,10 @@ layout: post
 date: "2007-12-14"
 title: jQuery IE7 "Operation Aborted" error
 comments: true
-categories: front-end development, jquery, troubleshooting
+categories:
+  - front-end development
+  - jquery
+  - troubleshooting
 ---
 
 I just got done troubleshooting an issue with a page with some jQuery on it. The jQuery was in a script called from the head of the document, and its job was to rearrange some elements into tabs once the page was loaded.

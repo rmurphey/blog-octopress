@@ -1,9 +1,14 @@
---- 
+---
 layout: post
 date: "2007-12-03"
 title: My case for standards-based web layouts
 comments: true
-categories: css, front-end development, POSH, standards, thoughts
+categories:
+  - css
+  - front-end development
+  - POSH
+  - standards
+  - thoughts
 ---
 
 Since 1999, the World Wide Web Consortium (W3C) -- a standards body that tells the world how the web should work -- has urged web sites to use semantic markup for content and cascading stylesheets (CSS) for layout, and to abandon code that combines information and presentation in non-semantic HTML table-based layouts. Semantic markup ...

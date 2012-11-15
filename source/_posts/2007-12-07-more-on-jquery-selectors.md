@@ -3,7 +3,10 @@ layout: post
 date: "2007-12-07"
 title: More on jQuery selectors
 comments: true
-categories: javascript, jquery, selectors
+categories:
+  - javascript
+  - jquery
+  - selectors
 ---
 
 Following up on my 13 seconds of selection hell:

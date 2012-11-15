@@ -3,7 +3,10 @@ layout: post
 date: "2007-12-30"
 title: Determine the order of two DOM elements
 comments: true
-categories: javascript, jquery, plugins
+categories:
+  - javascript
+  - jquery
+  - plugins
 ---
 
 Inspired by <a href="http://us.php.net/usort">this</a> from PHP, I wanted a

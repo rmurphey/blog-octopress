@@ -3,7 +3,11 @@ layout: post
 date: "2007-12-03"
 title: Remixing trac with jQuery
 comments: true
-categories: front-end development, javascript, jquery, trac
+categories:
+  - front-end development
+  - javascript
+  - jquery
+  - trac
 ---
 
 I love <a href="http://trac.edgewall.org/">trac</a>, and I've been doing lots of work lately to customize it so our clients can use it to send us requests. With the configurable workflow option offered in <a href="http://trac.edgewall.org/milestone/0.11">version 0.11</a>, it became the perfect way for us to manage and track client requests. By connecting it to the subversion repository we use for version control of client files, we've virtually eliminated the need for back-and-forth emails -- everything is in one place.

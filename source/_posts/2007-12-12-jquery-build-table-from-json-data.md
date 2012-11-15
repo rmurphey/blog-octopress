@@ -3,7 +3,9 @@ layout: post
 date: "2007-12-12"
 title: "jQuery: Build table from JSON data"
 comments: true
-categories: javascript, jquery
+categories:
+  - javascript
+  - jquery
 ---
 
 Given data like:

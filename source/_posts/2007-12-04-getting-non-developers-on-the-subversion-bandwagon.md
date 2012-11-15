@@ -1,9 +1,12 @@
---- 
+---
 layout: post
 date: "2007-12-04"
 title: Getting non-developers on the subversion bandwagon
 comments: true
-categories: subversion, svn, systems
+categories:
+  - subversion
+  - svn
+  - systems
 ---
 
 <a href="http://marcus.net/blog/">Marcus</a> turned me on to subversion when I was working on a project earlier this year and wanted a way to revisit old versions of files. <a href="http://marcus.net/blog/2007/01/19/creating-a-subversion-repository/">Setting up a subversion repository</a> was easy, and while I did download the Tortoise GUI for Windows, I found the command line was pretty easy too.

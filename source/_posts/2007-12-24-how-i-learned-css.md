@@ -3,7 +3,10 @@ layout: post
 date: "2007-12-24"
 title: How I learned CSS
 comments: true
-categories: css, front-end development, how-to, standards, thoughts, tutorial
+categories:
+  - css
+  - front-end development
+  - thoughts
 ---
 
 I remember when I first tried to understand how to produce designs for the web -- coming from the paper-based world, it was hard for me to accept everything that was suddenly out of my control. When I first tried to grasp CSS with the help of now-defunct Adobe GoLive, I bailed pretty quickly. Table-based layout and font tags didn't make much sense to me either -- why did I have to slice up a page into a bunch of adjoining cells, instead of just drawing independent boxes like I did in Quark?
