@@ -4,7 +4,7 @@
   <title><![CDATA[Adventures in JavaScript Development]]></title>
   <link href="http://rmurphey.com/atom.xml" rel="self"/>
   <link href="http://rmurphey.com/"/>
-  <updated>2012-08-20T14:13:50-04:00</updated>
+  <updated>2012-11-16T16:51:31-05:00</updated>
   <id>http://rmurphey.com/</id>
   <author>
     <name><![CDATA[Rebecca Murphey]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[This is the Cup of Coffee]]></title>
+    <link href="http://rmurphey.com/blog/2012/11/14/this-is-the-cup-of-coffee/"/>
+    <updated>2012-11-14T10:40:00-05:00</updated>
+    <id>http://rmurphey.com/blog/2012/11/14/this-is-the-cup-of-coffee</id>
+    <content type="html"><![CDATA[<p><img src="http://farm9.staticflickr.com/8482/8187360514_db246b4ac9.jpg" width="400"></p>
+
+<p>This is the cup of coffee I was making earlier this week when Melissa gave me a thumbs-up while she talked on the phone to a woman in Pennsylvania who had just finished telling Melissa that yes, indeed, after 10 weeks or three years of waiting depending on how you count, a 29-year-old woman who&#8217;s due to give birth in Iowa at the beginning of February has decided that Melissa and I should be so lucky as to get to be her baby girl&#8217;s forever family.</p>
+
+<p>Most people get to post ultrasound pictures on Twitter at moments like these, but for now this will suffice to remind me of the moment I found out I would get to be a mom. My head is spinning, and while on the one hand it&#8217;s a little difficult to fathom that this is all just 10 weeks away, on the other hand I&#8217;m counting down the days.</p>
+
+<p>Our adoption will be an open one; the meaning of &#8220;open&#8221; varies widely, but in our case it means we talked to the birth mother before she chose us, we&#8217;ll be meeting her in a few weeks, we&#8217;ll do our very best to be in Iowa for the delivery, and we&#8217;ll stay in touch with letters and pictures afterwards. Melissa and I are grateful that we&#8217;ll be able to adopt as a couple, though we are saddened that we have to adopt outside of our home state of North Carolina in order to do so. It&#8217;s important to us that our child have both of us as her <em>legal</em> parents, and I don&#8217;t hesitate to say that it&#8217;s downright shitty that we have to jump through significant legal and financial hoops &#8211; and stay in a hotel in Iowa with a newborn for an unknown number of days &#8211; to make it so. It is what it is, and good people are working and voting to make it better, and it can&#8217;t happen fast enough.</p>
+
+<p>I&#8217;ve learned a lot about adoption these past few months, and I know a lot of people have a lot of questions, some of which they&#8217;re reluctant to ask. If you&#8217;re interested in learning more, I <em>highly</em> recommend <a href="http://www.amazon.com/In-On-It-Adoption-Relatives/dp/0982876505/ref=sr_1_1?ie=UTF8&amp;qid=1352948795&amp;sr=8-1&amp;keywords=in+on+it">In On It: What Adoptive Parents Would Like You to Know About Adoption</a>. You&#8217;re also welcome to ask me questions if you see me in real life or on the internets &#8211; I can&#8217;t promise I&#8217;ll know the answers, but I promise to do my best.</p>
+
+<p>In the meantime, wish us luck :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[A Baseline for Front-End Developers]]></title>
@@ -2279,68 +2298,6 @@ DOM/Ajax/Events/Effects umbrella.</p>
 
 <p>The <a href="https://github.com/jquery/jquery/commits/deferred">conversation&#8217;s happening on GitHub</a> &#8211; I hope you&#8217;ll
 join in.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[On Conferencing]]></title>
-    <link href="http://rmurphey.com/blog/2010/11/20/on-conferencing/"/>
-    <updated>2010-11-20T00:00:00-05:00</updated>
-    <id>http://rmurphey.com/blog/2010/11/20/on-conferencing</id>
-    <content type="html"><![CDATA[<p>I&#8217;m a few hours away from finalizing my slides for the Rich Web Experience in Ft. Lauderdale next month. I&#8217;ll be presenting on basic tips for refactoring your jQuery; I think it&#8217;s a decent presentation &#8211; the part of it I&#8217;ve finished, anyway &#8211; and I&#8217;ll be glad to have it in my collection.</p>
-
-<p>By my count, RWX will be the 15th conference or non-trivial event I attend in 2010, including two that I&#8217;ve organized and eight that I&#8217;ve spoken at:</p>
-
-<h2>Organizer</h2>
-
-<ul>
-<li><a href="http://texasjavascript.com">TXJS</a> (Austin, TX)</li>
-<li>NCJS (Durham, NC)</li>
-</ul>
-
-
-<h2>Speaker</h2>
-
-<ul>
-<li>JSConf EU (Berlin, Germany; &#8221;<a href="http://www.slideshare.net/rmurphey/the-jquery-divide-5287573">The jQuery Divide</a>&#8221;)</li>
-<li>Boston jQuery Conference (Boston, MA; &#8221;<a href="http://www.slideshare.net/rmurphey/functionality-basedorg">Functionality Focused Code Organization</a>&#8221;)</li>
-<li>jQuery Summit (Online; &#8221;<a href="http://www.slideshare.net/rmurphey/functionality-basedorg">Functionality Focused Code Organization</a>&#8221;)</li>
-<li>Indieconf (Raleigh, NC; &#8221;<a href="http://www.slideshare.net/rmurphey/retooling-your-workflow">Retooling Your Workflow</a>&#8221;)</li>
-<li>Refresh the Triangle (Durham, NC; &#8221;<a href="http://www.slideshare.net/rmurphey/delivering-a-responsive-ui">Delivering a Responsive UI</a>&#8221;)</li>
-<li>Triangle JavaScript Meetup (Durham, NC; &#8221;<a href="http://www.slideshare.net/rmurphey/building-large-jquery-applications">Building Large jQuery Applications</a>&#8221;)</li>
-<li>Rich Web Experience (Ft. Lauderdale, FL; &#8220;Cleaner, Leaner, Meaner: Refactoring Your jQuery&#8221;)</li>
-<li>Durham Developer Day (Durham, NC; &#8221;<a href="http://www.slideshare.net/rmurphey/dojo-confessions">Dojo Confessions</a>&#8221;)</li>
-</ul>
-
-
-<h2>Attendee</h2>
-
-<ul>
-<li>SXSW (Austin, TX)</li>
-<li>Bay Area jQuery Conference (Mountain View, CA)</li>
-<li>JSConf US (Washington, DC)</li>
-<li>CouchCamp (Walker Creek Ranch, CA)</li>
-<li>Dojo Developer Days (Mountain View, CA)</li>
-</ul>
-
-
-<p>(For what it&#8217;s worth, and because I was curious enough to count: I&#8217;ve also participated in 11 episodes of <a href="http://yayquery.com">yayQuery</a>, written a half-dozen in-depth blog posts, organized at least six local web women meetups, and published an open <a href="http://jqfundamentals.com/book/book.html">jQuery training curriculum</a>.)</p>
-
-<p>It was sometime in early 2009 that I decided to make a point of speaking at more events. I&#8217;d always enjoyed the challenge and the thrill of public speaking, but I also wanted to be part of the solution to the dearth of women speakers in JavaScript land. Something like 18 months later, it seems I might be sort of good at it, if my SpeakerRate is to be believed. This fall I found myself actually turning down requests to speak.</p>
-
-<p>It turns out that they forgot to remind me in work-for-yourself school that at the end of the day or week or month, I&#8217;ve still gotta make some money now and then. Putting together presentations and traveling to conferences and meeting the expectations that come along with being a Vaguely Important Person &#8230; it&#8217;s fucking hard work, and when there&#8217;s no company to pay you for it, it&#8217;s also fucking expensive, even if it theoretically brings in work in the long run. While every non-local event I spoke at paid for my hotel and accommodations, I was not otherwise compensated. The events that I organized ended up being pretty much a wash, financially.</p>
-
-<p>I spent untold hundreds of hours &#8211; I&#8217;m not making that up &#8211; preparing presentations, traveling to conferences, and speaking this year. Looking back at my calendar since late August, when all of this got really and truly insane (most of my speaking has happened since then), the sad size of my business bank account makes stunning sense. We&#8217;ll leave aside the toll that working all the time and then being gone all the rest of the time takes on one&#8217;s home life, but suffice to say that the toll is, also, not trivial.</p>
-
-<p>Over the last few weeks, it&#8217;s become pretty clear that I need to take a break. I&#8217;m mostly over pre-talk jitters, but these days I find myself thinking &#8220;for the love of all that&#8217;s good, do I really have to get on a plane again?&#8221; People ask me about 2011 events and I find myself on the verge of losing my shit, which really isn&#8217;t fair to anyone. People tell me how they want to be invited to speak at stuff like I am, and I let loose a heavy sigh. People come up to me at events or email me randomly because they think that I&#8217;m an &#8220;expert&#8221; on this thing or that, and can they just ask me a little question? &#8211; and I wonder what, exactly, I have wrought with all of this effort. Worst of all: potential clients ask me about taking on lucrative work, and I must tell them: &#8220;Not now, I can&#8217;t, I&#8217;m sorry. I&#8217;ve got this presentation to prepare &#8230;&#8221;</p>
-
-<p>I might be a terrible person entirely too full of herself, or a drama queen, or whatever else you want to think. You might be certain that if I&#8217;d just think about it, there would be lots of efficiencies I could realize, and really I just make this harder than it is. That&#8217;s OK, and you might be right.</p>
-
-<p>I want to be clear that I realize that two years ago I was nobody, and to the extent that I am anybody now, it is largely because I have been afforded so many opportunities to make a name for myself. I am grateful for them. It becomes clear, though, that I&#8217;ve let the pendulum swing way too far.</p>
-
-<p>And so as I sit here, about to finish off the last slides of the year, I fantasize about deleting Keynote from my computer. But I also find myself thinking how I&#8217;m deciding not to do this thing that I&#8217;m kind of good at because I simply can&#8217;t afford to, and it makes me sad. It kills me to think about missing out on that warm fuzzy it-was-all-worth-it moment when everyone claps at the end. And more than anything, I feel like walking away, for however long, means yet one less woman on stage in a field that is desperate for them, and that makes me saddest of all.</p>
-
-<p>There is no point to this post, really, except for me to get some of my thoughts out of my head and for you to know where I&#8217;ve gone if you don&#8217;t see or hear from me as much. It is, alas, time for me to actually do some of that work that all this effort has brought in. We&#8217;ll see when I emerge &#8211; maybe I will feel rejuvenated in the new year, who knows! &#8211; and whenever that is, I hope to see you there.</p>
 ]]></content>
   </entry>
   

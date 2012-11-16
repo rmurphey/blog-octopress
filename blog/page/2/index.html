@@ -9,8 +9,8 @@
   <meta name="author" content="Rebecca Murphey">
 
   
-  <meta name="description" content="MVC and friends have been around for decades, but it’s only in the last couple
-of years that broad swaths of developers have started applying those &hellip;">
+  <meta name="description" content="I got an email the other day from someone reading through jQuery Fundamentals &#8211; they&#8217;d come across the section
+about patterns for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -101,6 +101,169 @@ of years that broad swaths of developers have started applying those &hellip;">
 </div>
 
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/07/24/object-literals/">Using Object Literals for Flow Control and Settings</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-07-24T00:00:00-04:00" pubdate data-updated="true">Jul 24<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/07/24/object-literals/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I got an email the other day from someone reading through <a href="http://jqfundamentals.com">jQuery Fundamentals</a> &#8211; they&#8217;d come across the section
+about patterns for performance and compression, which is based on a
+presentation by <a href="http://paulirish.com">Paul Irish</a> gave back at the 2009 jQuery
+Conference in Boston.</p>
+
+<p>In that section, there&#8217;s a bit about alternative patterns for flow control &#8211;
+that is, deciding what a program should do next. We&#8217;re all familiar with the
+standard if statement:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">isAnimal</span><span class="p">(</span><span class="nx">thing</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">thing</span> <span class="o">===</span> <span class="s1">&#39;dog&#39;</span> <span class="o">||</span> <span class="nx">thing</span> <span class="o">===</span> <span class="s1">&#39;cat&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;yes!&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What stumped the person who emailed me, though, was when the same logic as we
+see above was written like this:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">isAnimal</span><span class="p">(</span><span class="nx">thing</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(({</span> <span class="nx">cat</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">dog</span> <span class="o">:</span> <span class="mi">1</span> <span class="p">})[</span> <span class="nx">thing</span> <span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;yes!&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What&#8217;s happening here is that we&#8217;re using a throwaway object literal to express
+the conditions under which we will say a <code>thing</code> is an animal. We could have
+stored the object in a variable first:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">isAnimal</span><span class="p">(</span><span class="nx">thing</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">animals</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">cat</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">dog</span> <span class="o">:</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">animals</span><span class="p">[</span> <span class="nx">thing</span> <span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;yes!&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, that variable&#8217;s only purpose would be to provide this one lookup, so
+it can be argued that the version that doesn&#8217;t bother setting the variable is
+more economical. Reasonable people can probably disagree about whether this
+economy of bytes is a good tradeoff for readability &#8211; something like this is
+perfectly readable to a seasoned developer, but potentially puzzling otherwise
+&#8211; but it&#8217;s an interesting example of how we can use literals in JavaScript
+without bothering to store a value in a variable.</p>
+
+<p>The pattern works with an array, too:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">animalByIndex</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">[</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span> <span class="p">][</span> <span class="nx">index</span> <span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&#8217;s also useful for looking up values generally, which is how I find myself
+using it most often these days in my work with <a href="http://toura.com">Toura</a>, where
+we routinely branch our code depending on the form factor of the device we&#8217;re
+targeting:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getBlingLevel</span><span class="p">(</span><span class="nx">device</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">({</span>
+</span><span class='line'>    <span class="nx">phone</span> <span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">tablet</span> <span class="o">:</span> <span class="mi">200</span>
+</span><span class='line'>  <span class="p">})[</span> <span class="nx">device</span><span class="p">.</span><span class="nx">type</span> <span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As an added benefit, constructs that use this pattern will return the
+conveniently falsy <code>undefined</code> if you try to look up a value that doesn&#8217;t have
+a corresponding property in the object literal.</p>
+
+<p>A great way to come across techniques like this is to read the source code of
+your favorite library (and other libraries too). Unfortunately, once
+discovered, these patterns can be difficult to decipher, even if you have
+pretty good Google fu. Just in case your neighborhood blogger isn&#8217;t available,
+IRC is alive and well in 2011, and it&#8217;s an excellent place to get access to
+smart folks eager to take the time to explain.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1609,97 +1772,6 @@ join in.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/11/20/on-conferencing/">On Conferencing</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-11-20T00:00:00-05:00" pubdate data-updated="true">Nov 20<span>th</span>, 2010</time>
-        
-         | <a href="/blog/2010/11/20/on-conferencing/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;m a few hours away from finalizing my slides for the Rich Web Experience in Ft. Lauderdale next month. I&#8217;ll be presenting on basic tips for refactoring your jQuery; I think it&#8217;s a decent presentation &#8211; the part of it I&#8217;ve finished, anyway &#8211; and I&#8217;ll be glad to have it in my collection.</p>
-
-<p>By my count, RWX will be the 15th conference or non-trivial event I attend in 2010, including two that I&#8217;ve organized and eight that I&#8217;ve spoken at:</p>
-
-<h2>Organizer</h2>
-
-<ul>
-<li><a href="http://texasjavascript.com">TXJS</a> (Austin, TX)</li>
-<li>NCJS (Durham, NC)</li>
-</ul>
-
-
-<h2>Speaker</h2>
-
-<ul>
-<li>JSConf EU (Berlin, Germany; &#8221;<a href="http://www.slideshare.net/rmurphey/the-jquery-divide-5287573">The jQuery Divide</a>&#8221;)</li>
-<li>Boston jQuery Conference (Boston, MA; &#8221;<a href="http://www.slideshare.net/rmurphey/functionality-basedorg">Functionality Focused Code Organization</a>&#8221;)</li>
-<li>jQuery Summit (Online; &#8221;<a href="http://www.slideshare.net/rmurphey/functionality-basedorg">Functionality Focused Code Organization</a>&#8221;)</li>
-<li>Indieconf (Raleigh, NC; &#8221;<a href="http://www.slideshare.net/rmurphey/retooling-your-workflow">Retooling Your Workflow</a>&#8221;)</li>
-<li>Refresh the Triangle (Durham, NC; &#8221;<a href="http://www.slideshare.net/rmurphey/delivering-a-responsive-ui">Delivering a Responsive UI</a>&#8221;)</li>
-<li>Triangle JavaScript Meetup (Durham, NC; &#8221;<a href="http://www.slideshare.net/rmurphey/building-large-jquery-applications">Building Large jQuery Applications</a>&#8221;)</li>
-<li>Rich Web Experience (Ft. Lauderdale, FL; &#8220;Cleaner, Leaner, Meaner: Refactoring Your jQuery&#8221;)</li>
-<li>Durham Developer Day (Durham, NC; &#8221;<a href="http://www.slideshare.net/rmurphey/dojo-confessions">Dojo Confessions</a>&#8221;)</li>
-</ul>
-
-
-<h2>Attendee</h2>
-
-<ul>
-<li>SXSW (Austin, TX)</li>
-<li>Bay Area jQuery Conference (Mountain View, CA)</li>
-<li>JSConf US (Washington, DC)</li>
-<li>CouchCamp (Walker Creek Ranch, CA)</li>
-<li>Dojo Developer Days (Mountain View, CA)</li>
-</ul>
-
-
-<p>(For what it&#8217;s worth, and because I was curious enough to count: I&#8217;ve also participated in 11 episodes of <a href="http://yayquery.com">yayQuery</a>, written a half-dozen in-depth blog posts, organized at least six local web women meetups, and published an open <a href="http://jqfundamentals.com/book/book.html">jQuery training curriculum</a>.)</p>
-
-<p>It was sometime in early 2009 that I decided to make a point of speaking at more events. I&#8217;d always enjoyed the challenge and the thrill of public speaking, but I also wanted to be part of the solution to the dearth of women speakers in JavaScript land. Something like 18 months later, it seems I might be sort of good at it, if my SpeakerRate is to be believed. This fall I found myself actually turning down requests to speak.</p>
-
-<p>It turns out that they forgot to remind me in work-for-yourself school that at the end of the day or week or month, I&#8217;ve still gotta make some money now and then. Putting together presentations and traveling to conferences and meeting the expectations that come along with being a Vaguely Important Person &#8230; it&#8217;s fucking hard work, and when there&#8217;s no company to pay you for it, it&#8217;s also fucking expensive, even if it theoretically brings in work in the long run. While every non-local event I spoke at paid for my hotel and accommodations, I was not otherwise compensated. The events that I organized ended up being pretty much a wash, financially.</p>
-
-<p>I spent untold hundreds of hours &#8211; I&#8217;m not making that up &#8211; preparing presentations, traveling to conferences, and speaking this year. Looking back at my calendar since late August, when all of this got really and truly insane (most of my speaking has happened since then), the sad size of my business bank account makes stunning sense. We&#8217;ll leave aside the toll that working all the time and then being gone all the rest of the time takes on one&#8217;s home life, but suffice to say that the toll is, also, not trivial.</p>
-
-<p>Over the last few weeks, it&#8217;s become pretty clear that I need to take a break. I&#8217;m mostly over pre-talk jitters, but these days I find myself thinking &#8220;for the love of all that&#8217;s good, do I really have to get on a plane again?&#8221; People ask me about 2011 events and I find myself on the verge of losing my shit, which really isn&#8217;t fair to anyone. People tell me how they want to be invited to speak at stuff like I am, and I let loose a heavy sigh. People come up to me at events or email me randomly because they think that I&#8217;m an &#8220;expert&#8221; on this thing or that, and can they just ask me a little question? &#8211; and I wonder what, exactly, I have wrought with all of this effort. Worst of all: potential clients ask me about taking on lucrative work, and I must tell them: &#8220;Not now, I can&#8217;t, I&#8217;m sorry. I&#8217;ve got this presentation to prepare &#8230;&#8221;</p>
-
-<p>I might be a terrible person entirely too full of herself, or a drama queen, or whatever else you want to think. You might be certain that if I&#8217;d just think about it, there would be lots of efficiencies I could realize, and really I just make this harder than it is. That&#8217;s OK, and you might be right.</p>
-
-<p>I want to be clear that I realize that two years ago I was nobody, and to the extent that I am anybody now, it is largely because I have been afforded so many opportunities to make a name for myself. I am grateful for them. It becomes clear, though, that I&#8217;ve let the pendulum swing way too far.</p>
-
-<p>And so as I sit here, about to finish off the last slides of the year, I fantasize about deleting Keynote from my computer. But I also find myself thinking how I&#8217;m deciding not to do this thing that I&#8217;m kind of good at because I simply can&#8217;t afford to, and it makes me sad. It kills me to think about missing out on that warm fuzzy it-was-all-worth-it moment when everyone claps at the end. And more than anything, I feel like walking away, for however long, means yet one less woman on stage in a field that is desperate for them, and that makes me saddest of all.</p>
-
-<p>There is no point to this post, really, except for me to get some of my thoughts out of my head and for you to know where I&#8217;ve gone if you don&#8217;t see or hear from me as much. It is, alas, time for me to actually do some of that work that all this effort has brought in. We&#8217;ll see when I emerge &#8211; maybe I will feel rejuvenated in the new year, who knows! &#8211; and whenever that is, I hope to see you there.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1717,6 +1789,10 @@ join in.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/11/14/this-is-the-cup-of-coffee/">This is the Cup of Coffee</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/04/12/a-baseline-for-front-end-developers/">A Baseline for Front-End Developers</a>
       </li>
     
@@ -1730,10 +1806,6 @@ join in.</p>
     
       <li class="post">
         <a href="/blog/2012/03/26/bocoup/">Bocoup</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/25/girls-and-computers/">Girls and Computers</a>
       </li>
     
   </ul>

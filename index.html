@@ -9,7 +9,7 @@
   <meta name="author" content="Rebecca Murphey">
 
   
-  <meta name="description" content="I wrote a README the other day for a project that I&#8217;m hoping other developers will look at and learn from, and as I was writing it, I realized &hellip;">
+  <meta name="description" content="This is the cup of coffee I was making earlier this week when Melissa gave me a thumbs-up while she talked on the phone to a woman in Pennsylvania &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +100,54 @@
 </div>
 
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/14/this-is-the-cup-of-coffee/">This Is the Cup of Coffee</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-14T10:40:00-05:00" pubdate data-updated="true">Nov 14<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/14/this-is-the-cup-of-coffee/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="http://farm9.staticflickr.com/8482/8187360514_db246b4ac9.jpg" width="400"></p>
+
+<p>This is the cup of coffee I was making earlier this week when Melissa gave me a thumbs-up while she talked on the phone to a woman in Pennsylvania who had just finished telling Melissa that yes, indeed, after 10 weeks or three years of waiting depending on how you count, a 29-year-old woman who&#8217;s due to give birth in Iowa at the beginning of February has decided that Melissa and I should be so lucky as to get to be her baby girl&#8217;s forever family.</p>
+
+<p>Most people get to post ultrasound pictures on Twitter at moments like these, but for now this will suffice to remind me of the moment I found out I would get to be a mom. My head is spinning, and while on the one hand it&#8217;s a little difficult to fathom that this is all just 10 weeks away, on the other hand I&#8217;m counting down the days.</p>
+
+<p>Our adoption will be an open one; the meaning of &#8220;open&#8221; varies widely, but in our case it means we talked to the birth mother before she chose us, we&#8217;ll be meeting her in a few weeks, we&#8217;ll do our very best to be in Iowa for the delivery, and we&#8217;ll stay in touch with letters and pictures afterwards. Melissa and I are grateful that we&#8217;ll be able to adopt as a couple, though we are saddened that we have to adopt outside of our home state of North Carolina in order to do so. It&#8217;s important to us that our child have both of us as her <em>legal</em> parents, and I don&#8217;t hesitate to say that it&#8217;s downright shitty that we have to jump through significant legal and financial hoops &#8211; and stay in a hotel in Iowa with a newborn for an unknown number of days &#8211; to make it so. It is what it is, and good people are working and voting to make it better, and it can&#8217;t happen fast enough.</p>
+
+<p>I&#8217;ve learned a lot about adoption these past few months, and I know a lot of people have a lot of questions, some of which they&#8217;re reluctant to ask. If you&#8217;re interested in learning more, I <em>highly</em> recommend <a href="http://www.amazon.com/In-On-It-Adoption-Relatives/dp/0982876505/ref=sr_1_1?ie=UTF8&amp;qid=1352948795&amp;sr=8-1&amp;keywords=in+on+it">In On It: What Adoptive Parents Would Like You to Know About Adoption</a>. You&#8217;re also welcome to ask me questions if you see me in real life or on the internets &#8211; I can&#8217;t promise I&#8217;ll know the answers, but I promise to do my best.</p>
+
+<p>In the meantime, wish us luck :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1251,169 +1299,6 @@ with it. Win all around.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/07/24/object-literals/">Using Object Literals for Flow Control and Settings</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-07-24T00:00:00-04:00" pubdate data-updated="true">Jul 24<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/07/24/object-literals/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I got an email the other day from someone reading through <a href="http://jqfundamentals.com">jQuery Fundamentals</a> &#8211; they&#8217;d come across the section
-about patterns for performance and compression, which is based on a
-presentation by <a href="http://paulirish.com">Paul Irish</a> gave back at the 2009 jQuery
-Conference in Boston.</p>
-
-<p>In that section, there&#8217;s a bit about alternative patterns for flow control &#8211;
-that is, deciding what a program should do next. We&#8217;re all familiar with the
-standard if statement:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">isAnimal</span><span class="p">(</span><span class="nx">thing</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">thing</span> <span class="o">===</span> <span class="s1">&#39;dog&#39;</span> <span class="o">||</span> <span class="nx">thing</span> <span class="o">===</span> <span class="s1">&#39;cat&#39;</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;yes!&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What stumped the person who emailed me, though, was when the same logic as we
-see above was written like this:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">isAnimal</span><span class="p">(</span><span class="nx">thing</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(({</span> <span class="nx">cat</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">dog</span> <span class="o">:</span> <span class="mi">1</span> <span class="p">})[</span> <span class="nx">thing</span> <span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;yes!&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What&#8217;s happening here is that we&#8217;re using a throwaway object literal to express
-the conditions under which we will say a <code>thing</code> is an animal. We could have
-stored the object in a variable first:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">isAnimal</span><span class="p">(</span><span class="nx">thing</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">animals</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">cat</span> <span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">dog</span> <span class="o">:</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">animals</span><span class="p">[</span> <span class="nx">thing</span> <span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;yes!&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;no&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, that variable&#8217;s only purpose would be to provide this one lookup, so
-it can be argued that the version that doesn&#8217;t bother setting the variable is
-more economical. Reasonable people can probably disagree about whether this
-economy of bytes is a good tradeoff for readability &#8211; something like this is
-perfectly readable to a seasoned developer, but potentially puzzling otherwise
-&#8211; but it&#8217;s an interesting example of how we can use literals in JavaScript
-without bothering to store a value in a variable.</p>
-
-<p>The pattern works with an array, too:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">animalByIndex</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">[</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;dog&#39;</span> <span class="p">][</span> <span class="nx">index</span> <span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It&#8217;s also useful for looking up values generally, which is how I find myself
-using it most often these days in my work with <a href="http://toura.com">Toura</a>, where
-we routinely branch our code depending on the form factor of the device we&#8217;re
-targeting:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">getBlingLevel</span><span class="p">(</span><span class="nx">device</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">({</span>
-</span><span class='line'>    <span class="nx">phone</span> <span class="o">:</span> <span class="mi">100</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">tablet</span> <span class="o">:</span> <span class="mi">200</span>
-</span><span class='line'>  <span class="p">})[</span> <span class="nx">device</span><span class="p">.</span><span class="nx">type</span> <span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As an added benefit, constructs that use this pattern will return the
-conveniently falsy <code>undefined</code> if you try to look up a value that doesn&#8217;t have
-a corresponding property in the object literal.</p>
-
-<p>A great way to come across techniques like this is to read the source code of
-your favorite library (and other libraries too). Unfortunately, once
-discovered, these patterns can be difficult to decipher, even if you have
-pretty good Google fu. Just in case your neighborhood blogger isn&#8217;t available,
-IRC is alive and well in 2011, and it&#8217;s an excellent place to get access to
-smart folks eager to take the time to explain.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1429,6 +1314,10 @@ smart folks eager to take the time to explain.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/11/14/this-is-the-cup-of-coffee/">This is the Cup of Coffee</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/04/12/a-baseline-for-front-end-developers/">A Baseline for Front-End Developers</a>
       </li>
     
@@ -1442,10 +1331,6 @@ smart folks eager to take the time to explain.</p>
     
       <li class="post">
         <a href="/blog/2012/03/26/bocoup/">Bocoup</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/25/girls-and-computers/">Girls and Computers</a>
       </li>
     
   </ul>

@@ -9,7 +9,7 @@
   <meta name="author" content="Rebecca Murphey">
 
   
-  <meta name="description" content="This post about precompiling and caching regular expressions came across my Google reader just as I was wrangling with a slow regex issue. Not sure &hellip;">
+  <meta name="description" content="Just a note to self: Quick Tip - Optimizing DOM Traversal. Avoid bare classname selectors like $('.foo') when possible; qualify them with an element &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +100,44 @@
 </div>
 
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/02/05/selectors-in-jquery/">Selectors in jQuery</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-02-05T00:00:00-05:00" pubdate data-updated="true">Feb 5<span>th</span>, 2008</time>
+        
+         | <a href="/blog/2008/02/05/selectors-in-jquery/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Just a note to self: <a href="http://www.learningjquery.com/2006/12/quick-tip-optimizing-dom-traversal">Quick Tip - Optimizing DOM Traversal</a>. Avoid bare classname selectors like <code>$('.foo')</code> when possible; qualify them with an element type or, ideally, the ID of a parent element: <code>$('div.foo')</code> or <code>$('#bar .foo')</code>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1170,111 +1208,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2007/12/30/determine-the-order-of-two-dom-elements/">Determine the Order of Two DOM Elements</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2007-12-30T00:00:00-05:00" pubdate data-updated="true">Dec 30<span>th</span>, 2007</time>
-        
-         | <a href="/blog/2007/12/30/determine-the-order-of-two-dom-elements/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Inspired by <a href="http://us.php.net/usort">this</a> from PHP, I wanted a
-utility function to determine whether a given element came before or after
-another element in the DOM.</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">order</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$a</span><span class="p">,</span><span class="nx">$b</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>    <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$b</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="s1">&#39;order-test&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">$a</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">$b</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span><span class="nx">c</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// elements are the same</span>
-</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">$b</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">$elements</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="nx">c</span><span class="p">);</span>
-</span><span class='line'>    <span class="nx">$elements</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">c</span><span class="o">+</span><span class="s1">&#39;-first&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">$a</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span><span class="nx">c</span><span class="o">+</span><span class="s1">&#39;-first&#39;</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// $a is first</span>
-</span><span class='line'>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">$b</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span><span class="nx">c</span><span class="o">+</span><span class="s1">&#39;-first&#39;</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// $b is first</span>
-</span><span class='line'>        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">})(</span><span class="nx">jQuery</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -1292,6 +1225,10 @@ another element in the DOM.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/11/14/this-is-the-cup-of-coffee/">This is the Cup of Coffee</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/04/12/a-baseline-for-front-end-developers/">A Baseline for Front-End Developers</a>
       </li>
     
@@ -1305,10 +1242,6 @@ another element in the DOM.</p>
     
       <li class="post">
         <a href="/blog/2012/03/26/bocoup/">Bocoup</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/25/girls-and-computers/">Girls and Computers</a>
       </li>
     
   </ul>
