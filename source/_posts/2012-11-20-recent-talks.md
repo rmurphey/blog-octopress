@@ -9,6 +9,12 @@ comments: true
 
 I've been ridiculously spoiled to get to travel all over the place these last few months -- San Francisco, New York, Amsterdam, Berlin, Brighton -- and speak at some truly first-class conferences, sharing the stage, sharing meals, and sharing beers with some seriously amazing folks. My [recent news](http://rmurphey.com/blog/2012/11/14/this-is-the-cup-of-coffee/) means I'll be doing a lot less travel for the next little bit, but I'm ever-so-grateful for the opportunities I've had and the people I've gotten to see and meet these last few months.
 
+### Writing Testable JavaScript
+
+This is the first talk I've developed that I've managed to give several times in rapid succession: three times in six days, including at [Full Frontal](http://2012.full-frontal.org/), the online [JS Summit](http://environmentsforhumans.com/2012/javascript-summit/), and to a group of developers at the New York Times. There's no video yet, but the [slides are here](https://speakerdeck.com/rmurphey/writing-testable-javascript-mocha-version), and there should be video soon, I think.
+
+<p><script async class="speakerdeck-embed" data-id="eb8bb4800ff201308f97123138155402" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script></p>
+
 ### JS Minty Fresh
 
 A fun talk at [Fronteers](http://fronteers.nl/congres/2012) about eliminating code smells from your JavaScript. The best feedback I got afterwards was from an attendee who said they felt at the beginning of the talk like the material was going to be too basic for them, and by the end of the talk, the material was nearly over their head. "I guess that makes you a good teacher," he said. Aw!
@@ -28,12 +34,6 @@ An update of my code organization talk, delivered at the [jQuery Conference in S
 <iframe width="500" height="281" src="http://www.youtube.com/embed/cd7HHN6IkrU" frameborder="0" allowfullscreen></iframe>
 
 [Slides](https://speakerdeck.com/rmurphey/jquery-conference-sf-2012-beyond-the-dom-sane-structure-for-js-apps)
-
-### Writing Testable JavaScript
-
-This is the first talk I've developed that I've managed to give several times in rapid succession: three times in six days, including at [Full Frontal](http://2012.full-frontal.org/), the online [JS Summit](http://environmentsforhumans.com/2012/javascript-summit/), and to a group of developers at the New York Times. There's no video yet, but the [slides are here](https://speakerdeck.com/rmurphey/writing-testable-javascript-mocha-version), and there should be video soon, I think.
-
-<p><script async class="speakerdeck-embed" data-id="eb8bb4800ff201308f97123138155402" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script></p>
 
 ### Getting Better at JavaScript
 
