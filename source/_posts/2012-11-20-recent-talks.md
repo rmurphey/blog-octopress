@@ -35,6 +35,12 @@ An update of my code organization talk, delivered at the [jQuery Conference in S
 
 [Slides](https://speakerdeck.com/rmurphey/jquery-conference-sf-2012-beyond-the-dom-sane-structure-for-js-apps)
 
+### Johnny Five: Bringing the JavaScript Culture to Hardware
+
+This one was from the New York Times [Open Source Science Fair](http://opensourcesciencefair.com/), a fun night of about a dozen folks presenting open-source projects at "booths," followed by short talks about open source by Jeremy Ashkenas, me, and Zach Holman. The slides don't necessarily stand on their own very well, but the short version is: use JavaScript to make things in the real world, because it's ridiculously easy and ridiculously fun.
+
+<p><script async class="speakerdeck-embed" data-id="6ab92f30161e0130f5111231381d612b" data-ratio="1.2994923857868" src="//speakerdeck.com/assets/embed.js"></script></p>
+
 ### Getting Better at JavaScript
 
 I put this together as a quickie for the Berlin [UpFront](http://up.front.ug/) user group -- it was the first talk I gave with my broken foot, and the last talk I'd give for weeks because I lost my voice a couple of hours later. There's not a whole lot here, but it was a fun talk and a fun group, and a topic that I get plenty of questions about. Again, no video, but here are the slides:
