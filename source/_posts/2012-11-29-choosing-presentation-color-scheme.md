@@ -25,5 +25,11 @@ What does this mean? Lots of things, but in particular, it means that you should
 
 ### Presentation Color Schemes That I Have Loved
 
-- [Ben Alman's TextMate Theme](https://gist.github.com/4171437): Ben has tailored this to be incredible for presenting about JS code
-- [Tomorrow Theme](https://github.com/chriskempson/tomorrow-theme): The light-background flavor is decent, but could probably stand to be higher-contrast, at least for some languages
+[Ben Alman's TextMate Theme](https://gist.github.com/4171437): Ben has tailored this to be incredible for presenting about JS code.
+
+<img src="http://d.pr/i/yyh1+">
+
+[Tomorrow Theme](https://github.com/chriskempson/tomorrow-theme): The light-background flavor is decent, but could probably stand to be higher-contrast, at least for some languages.
+
+<img src="http://d.pr/i/5oEs+">
+
