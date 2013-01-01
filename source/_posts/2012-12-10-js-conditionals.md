@@ -5,7 +5,7 @@ date: 2012-12-10 21:40
 comments: true
 ---
 
-Just a quick post, inspired by [Laura Kalbag's post](http://laurakalbag.com/display-none/), where she reminded me:
+Just a quick post, inspired by [Laura Kalbag's post](http://laurakalbag.com/display-none/), which included this gem:
 
 > We shouldn’t be fearful of writing about what we know. Even if you write from the most basic point of view, about something which has been ‘around for ages’, you’ll likely be saying something new to someone.
 
@@ -53,7 +53,7 @@ Consider some code like this:
 function howBig( num ) {
   if ( num < 10 ) {
     return 'small';
-  } else if ( num >- 10 && num < 100 ) {
+  } else if ( num >= 10 && num < 100 ) {
     return 'medium';
   } else if ( num >= 100 ) {
     return 'big';
@@ -61,7 +61,7 @@ function howBig( num ) {
 }
 ```
 
-Of course, we might be inclined to write this using the `else if` construct that we just discussed above; however, there's an even better way. If the number we pass to `howBig` is less than 10, then our function will return `'small'`. As soon as it returns, none of the rest of the function will run -- this means we can skip the `else` part entirely, which means our code could look like this:
+If the number we pass to `howBig` is less than 10, then our function will return `'small'`. As soon as it returns, none of the rest of the function will run -- this means we can skip the `else` part entirely, which means our code could look like this:
 
 ```javascript
 function howBig( num ) {
@@ -69,7 +69,7 @@ function howBig( num ) {
     return 'small';
   }
 
-  if ( num >= 10 && num < 100 ) {
+  if ( num < 100 ) {
     return 'medium';
   }
 
@@ -87,10 +87,12 @@ function howBig( num ) {
     return 'small';
   }
 
-  if ( num >= 10 && num < 100 ) {
+  if ( num < 100 ) {
     return 'medium';
   }
 
   return 'big';
 }
 ```
+
+<small><em>Note: this post was edited to improve a couple of the examples and to fix some typos.</em></small>
